@@ -179,9 +179,9 @@ fun HomeScreen(onNavigateToConverter: (ExchangeModel) -> Unit = {}) {
         )
     }
     BackHandler(
-        sheetState.isVisible
-                || scaffoldState.drawerState.isOpen
-                || lazyListState.firstVisibleItemScrollOffset != 0
+        sheetState.isVisible ||
+                scaffoldState.drawerState.isOpen ||
+                lazyListState.firstVisibleItemScrollOffset != 0
     ) {
         when {
             sheetState.isVisible -> scope.launch { sheetState.hide() }
