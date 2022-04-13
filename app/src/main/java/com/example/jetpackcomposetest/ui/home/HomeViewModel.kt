@@ -3,10 +3,17 @@ package com.example.jetpackcomposetest.ui.home
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.jetpackcomposetest.*
-import com.example.jetpackcomposetest.retrofit.getLatestRates
+import com.example.jetpackcomposetest.data.remote.ExchangeDao
+import com.example.jetpackcomposetest.data.remote.ExchangeRepository
+import com.example.jetpackcomposetest.data.remote.ExchangeRepositoryImpl
+import kotlinx.coroutines.launch
 
-class HomeViewModel(context: Context) : ViewModel() {
+class HomeViewModel(
+    context: Context,
+    private val exchangeRepository: ExchangeRepository = ExchangeRepositoryImpl(ExchangeDao.Instance)
+) : ViewModel() {
 
     private val sharedPref = context.sharedPreferences
 
@@ -39,14 +46,16 @@ class HomeViewModel(context: Context) : ViewModel() {
         sharedPref.sortOrder = value
     }
 
-    fun refreshExchangeRates() {
+    fun syncExchangeRates() {
         _isLoading.value = if (_isLoading.value) return else true
-        getLatestRates {
-            _isLoading.value = false
-            it ?: return@getLatestRates
-            if (_timestamp.value == it.timestamp) return@getLatestRates
-            updateExchangesList(it.rates)
-            updateTimestamp(it.timestamp)
+        viewModelScope.launch {
+            exchangeRepository.getLatestRates().run {
+                _isLoading.value = false
+                this ?: return@run
+                if (_timestamp.value == timestamp) return@run
+                updateExchangesList(rates)
+                updateTimestamp(timestamp)
+            }
         }
     }
 }

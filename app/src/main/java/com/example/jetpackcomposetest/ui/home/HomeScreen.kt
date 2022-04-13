@@ -75,7 +75,7 @@ fun HomeScreen(
                         title = { Text("MMK Exchange") },
                         navigationIcon = { NavigationIcon() },
                         actions = {
-                            RefreshIcon { viewModel.refreshExchangeRates() }
+                            RefreshIcon { viewModel.syncExchangeRates() }
                             SortIcon()
                         }
                     )
