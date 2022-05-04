@@ -4,7 +4,10 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -34,7 +37,7 @@ fun HomeScreen(
     onNavigateToConverter: (ExchangeModel) -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val lazyListState = rememberLazyListState()
+    val lazyGridState = rememberLazyGridState()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
@@ -63,7 +66,7 @@ fun HomeScreen(
             SortBy(viewModel.selectedOrder) { sortOrder ->
                 scope.launch { sheetState.hide() }
                 sortOrder ?: return@SortBy
-                scope.launch { viewModel.updateSortOrder(sortOrder) }
+                viewModel.updateSortOrder(sortOrder)
             }
         }
     ) {
@@ -106,31 +109,43 @@ fun HomeScreen(
             },
             content = {
                 val contentDp = remember { 16.dp }
-                LazyVerticalGrid(
-                    cells = GridCells.Adaptive(300.dp),
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(contentDp),
-                    horizontalArrangement = Arrangement.spacedBy(contentDp),
-                    contentPadding = PaddingValues(contentDp),
-                    state = lazyListState
-                ) {
-                    items(viewModel.exchangesList) {
-                        ExchangeList(it) { onNavigateToConverter(it) }
+                val scrollState = rememberScrollState()
+                Box(Modifier.padding(contentDp)) {
+                    Column(
+                        modifier = Modifier.verticalScroll(scrollState),
+                        verticalArrangement = Arrangement.spacedBy(contentDp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        viewModel.exchangesList.forEach {
+                            ExchangeList(it) { onNavigateToConverter(it) }
+                        }
                     }
                 }
+//                LazyVerticalGrid(
+//                    columns = GridCells.Adaptive(300.dp),
+//                    modifier = Modifier.fillMaxSize(),
+//                    verticalArrangement = Arrangement.spacedBy(contentDp),
+//                    horizontalArrangement = Arrangement.spacedBy(contentDp),
+//                    contentPadding = PaddingValues(contentDp),
+//                    state = lazyGridState
+//                ) {
+//                    items(viewModel.exchangesList) {
+//                        ExchangeList(it) { onNavigateToConverter(it) }
+//                    }
+//                }
             }
         )
     }
     BackHandler(
         sheetState.isVisible
                 || scaffoldState.drawerState.isOpen
-                || lazyListState.firstVisibleItemScrollOffset != 0
+                || lazyGridState.firstVisibleItemScrollOffset != 0
     ) {
         when {
             sheetState.isVisible -> scope.launch { sheetState.hide() }
             scaffoldState.drawerState.isOpen -> scope.launch { scaffoldState.drawerState.close() }
-            lazyListState.firstVisibleItemScrollOffset != 0 -> {
-                scope.launch { lazyListState.animateScrollToItem(0) }
+            lazyGridState.firstVisibleItemScrollOffset != 0 -> {
+                scope.launch { lazyGridState.animateScrollToItem(0) }
             }
         }
     }

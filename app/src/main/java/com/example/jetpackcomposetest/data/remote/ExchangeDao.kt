@@ -1,8 +1,9 @@
 package com.example.jetpackcomposetest.data.remote
 
 import com.example.jetpackcomposetest.LatestRates
+import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import okhttp3.OkHttpClient
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit
 interface ExchangeDao {
 
     @GET("latest")
-    suspend fun syncLatestRates(): Response<LatestRates>
+    suspend fun syncLatestRates(): ApiResponse<LatestRates>
 
     companion object {
         val Instance: ExchangeDao = retrofit.create(ExchangeDao::class.java)
@@ -21,6 +22,7 @@ interface ExchangeDao {
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
                 .build()
 
         private const val BASE_URL = "https://forex.cbm.gov.mm//api/"

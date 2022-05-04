@@ -24,7 +24,22 @@ class HomeViewModel(
     val selectedOrder get() = _selectedOrder.value
 
     private val exchangeRates = sharedPref.sharedRates?.exchangesList ?: emptyList()
-    private val _exchangesList = mutableStateOf(exchangeRates.sortBy(_selectedOrder.value))
+
+    private val ascending = exchangeRates.sortBy(SortOrder.ASCENDING)
+    private val descending = exchangeRates.sortBy(SortOrder.DESCENDING)
+    private val largestFirst = exchangeRates.sortBy(SortOrder.LARGEST_FIRST)
+    private val smallestFirst = exchangeRates.sortBy(SortOrder.SMALLEST_FIRST)
+
+    private fun SortOrder.sortedList(): List<ExchangeModel> {
+        return when (this) {
+            SortOrder.ASCENDING -> ascending
+            SortOrder.DESCENDING -> descending
+            SortOrder.LARGEST_FIRST -> largestFirst
+            SortOrder.SMALLEST_FIRST -> smallestFirst
+        }
+    }
+
+    private val _exchangesList = mutableStateOf(selectedOrder.sortedList())
     val exchangesList get() = _exchangesList.value
 
     private val _timestamp = mutableStateOf(sharedPref.timestamp)
@@ -36,14 +51,20 @@ class HomeViewModel(
     }
 
     private fun updateExchangesList(value: Rates) {
-        _exchangesList.value = value.exchangesList.sortBy(_selectedOrder.value)
-        sharedPref.sharedRates = value
+        viewModelScope.launch {
+            _exchangesList.value = value.exchangesList
+//            _exchangesList.value = value.exchangesList.sortBy(_selectedOrder.value)
+            sharedPref.sharedRates = value
+        }
     }
 
     fun updateSortOrder(value: SortOrder) {
-        _selectedOrder.value = value
-        _exchangesList.value = _exchangesList.value.sortBy(value)
-        sharedPref.sortOrder = value
+        viewModelScope.launch {
+            _exchangesList.value = value.sortedList()
+//            _exchangesList.value = _exchangesList.value.sortBy(value)
+            _selectedOrder.value = value
+            sharedPref.sortOrder = value
+        }
     }
 
     fun syncExchangeRates() {

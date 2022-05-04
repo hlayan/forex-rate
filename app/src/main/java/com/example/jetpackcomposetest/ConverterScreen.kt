@@ -1,7 +1,14 @@
 package com.example.jetpackcomposetest
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -10,41 +17,60 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposetest.ui.theme.DefaultPreviewTheme
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun Converter(exchangeModel: ExchangeModel, onNavigateUp: () -> Unit = {}) {
-    Column(
-        Modifier
-            .background(MaterialTheme.colors.background)
-            .fillMaxSize()
-    ) {
-        TopAppBar(
-            title = { Text(text = "Exchange Converter") },
-            navigationIcon = {
-                IconButton(onClick = onNavigateUp) {
-                    Icon(Icons.Filled.ArrowBack, "Navigate up")
-                }
-            }
-        )
-
-        val checkedState = rememberSaveable { mutableStateOf(false) }
-
-        Card(
-            modifier = Modifier.padding(vertical = 10.dp),
-            shape = RectangleShape
-        ) {
-            if (checkedState.value) {
-                CustomConverter(exchangeModel)
-            } else {
-                ExchangeConverter(exchangeModel)
+@SuppressLint("ValidFragment")
+class ConverterFragment(private val onBackPressed: () -> Unit) : android.app.Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(inflater.context).apply {
+            setContent {
+                val selectedExchangeModel = rememberSaveable { mutableStateOf(ExchangeModel()) }
+                Converter(exchangeModel = selectedExchangeModel.value, onBackPressed)
             }
         }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@Composable
+fun Converter(exchangeModel: ExchangeModel, onNavigateUp: () -> Unit = {}) {
+    Surface(Modifier.fillMaxSize()) {
+        Column {
+            TopAppBar(
+                title = { Text(text = "Exchange Converter") },
+                navigationIcon = {
+                    val keyboardController = LocalSoftwareKeyboardController.current
+                    IconButton(onClick = {
+                        keyboardController?.hide()
+                        onNavigateUp()
+                    }) {
+                        Icon(Icons.Filled.ArrowBack, "Navigate up")
+                    }
+                }
+            )
+
+            val checkedState = rememberSaveable { mutableStateOf(false) }
+
+            Card(
+                modifier = Modifier.padding(vertical = 10.dp),
+                shape = RectangleShape
+            ) {
+                if (checkedState.value) {
+                    CustomConverter(exchangeModel)
+                } else {
+                    ExchangeConverter(exchangeModel)
+                }
+            }
 
 //        Card(
 //            onClick = { checkedState.value = checkedState.value.not() },
@@ -69,6 +95,7 @@ fun Converter(exchangeModel: ExchangeModel, onNavigateUp: () -> Unit = {}) {
 //            }
 //        }
 
+        }
     }
 }
 
