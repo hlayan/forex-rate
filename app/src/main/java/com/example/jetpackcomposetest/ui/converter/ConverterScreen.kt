@@ -1,4 +1,4 @@
-package com.example.jetpackcomposetest
+package com.example.jetpackcomposetest.ui.converter
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -23,6 +23,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.jetpackcomposetest.ExchangeModel
 import com.example.jetpackcomposetest.ui.theme.DefaultPreviewTheme
 
 @SuppressLint("ValidFragment")
