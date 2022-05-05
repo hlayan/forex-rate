@@ -1,10 +1,5 @@
 package com.example.jetpackcomposetest.ui.converter
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +12,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -25,22 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpackcomposetest.ExchangeModel
 import com.example.jetpackcomposetest.ui.theme.DefaultPreviewTheme
-
-@SuppressLint("ValidFragment")
-class ConverterFragment(private val onBackPressed: () -> Unit) : android.app.Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(inflater.context).apply {
-            setContent {
-                val selectedExchangeModel = rememberSaveable { mutableStateOf(ExchangeModel()) }
-                Converter(exchangeModel = selectedExchangeModel.value, onBackPressed)
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
