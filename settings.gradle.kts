@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "MMKExchange"
-include ':app'
+include(":app")
+rootProject.name = "Myanmar Exchange"
