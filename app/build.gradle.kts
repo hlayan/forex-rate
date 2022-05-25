@@ -6,7 +6,6 @@ plugins {
 
 android {
     compileSdk = 32
-    buildToolsVersion = "31.0.0"
     namespace = "com.hlayan.mmkexchange"
 
     defaultConfig {
@@ -15,10 +14,7 @@ android {
         versionCode = 1
         versionName = "1.0.0"
         applicationId = "com.hlayan.mmkexchange"
-
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -46,16 +42,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     buildFeatures {
         compose = true
         buildConfig = false
     }
 
     composeOptions {
+        useLiveLiterals = false
         kotlinCompilerExtensionVersion = "1.1.1"
     }
 }
