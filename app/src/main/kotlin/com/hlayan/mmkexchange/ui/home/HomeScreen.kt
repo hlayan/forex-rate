@@ -1,13 +1,14 @@
 package com.hlayan.mmkexchange.ui.home
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -23,14 +24,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.hlayan.mmkexchange.ExchangeList
-import com.hlayan.mmkexchange.ExchangeModel
-import com.hlayan.mmkexchange.NavigationDrawerHeader
-import com.hlayan.mmkexchange.SortBy
+import com.hlayan.mmkexchange.*
 import com.hlayan.mmkexchange.ui.theme.DefaultPreviewTheme
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
@@ -43,10 +41,21 @@ fun HomeScreen(
 
     @Composable
     fun SortIcon() {
-        IconButton(onClick = {
-            scope.launch { sheetState.animateTo(ModalBottomSheetValue.Expanded) }
-        }) {
-            Icon(imageVector = Icons.Filled.Sort, contentDescription = "Sort")
+        Column {
+            IconButton(onClick = {
+                viewModel.openSortMenu()
+//            scope.launch { sheetState.animateTo(ModalBottomSheetValue.Expanded) }
+            }) {
+                Icon(imageVector = Icons.Filled.Sort, contentDescription = "Sort")
+            }
+
+            SortMenu(
+                expanded = viewModel.isExpandSortMenu,
+                selectedOrder = viewModel.selectedOrder
+            ) {
+                viewModel.closeSortMenu()
+                it?.let { viewModel.updateSortOrder(it) }
+            }
         }
     }
 
@@ -110,36 +119,36 @@ fun HomeScreen(
             content = {
                 val contentDp = remember { 16.dp }
                 val scrollState = rememberScrollState()
-                Box(Modifier.padding(contentDp)) {
-                    Column(
-                        modifier = Modifier.verticalScroll(scrollState),
-                        verticalArrangement = Arrangement.spacedBy(contentDp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        viewModel.exchangesList.forEach {
-                            ExchangeList(it) { onNavigateToConverter(it) }
-                        }
-                    }
-                }
-//                LazyVerticalGrid(
-//                    columns = GridCells.Adaptive(300.dp),
-//                    modifier = Modifier.fillMaxSize(),
-//                    verticalArrangement = Arrangement.spacedBy(contentDp),
-//                    horizontalArrangement = Arrangement.spacedBy(contentDp),
-//                    contentPadding = PaddingValues(contentDp),
-//                    state = lazyGridState
-//                ) {
-//                    items(viewModel.exchangesList) {
-//                        ExchangeList(it) { onNavigateToConverter(it) }
+//                Box(Modifier.padding(contentDp)) {
+//                    Column(
+//                        modifier = Modifier.verticalScroll(scrollState),
+//                        verticalArrangement = Arrangement.spacedBy(contentDp),
+//                        horizontalAlignment = Alignment.CenterHorizontally
+//                    ) {
+//                        viewModel.exchangesList.forEach {
+//                            ExchangeList(it) { onNavigateToConverter(it) }
+//                        }
 //                    }
 //                }
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(300.dp),
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(contentDp),
+                    horizontalArrangement = Arrangement.spacedBy(contentDp),
+                    contentPadding = PaddingValues(contentDp),
+                    state = lazyGridState
+                ) {
+                    items(viewModel.exchangesList) {
+                        ExchangeList(it) { onNavigateToConverter(it) }
+                    }
+                }
             }
         )
     }
     BackHandler(
-        sheetState.isVisible
-                || scaffoldState.drawerState.isOpen
-                || lazyGridState.firstVisibleItemScrollOffset != 0
+        sheetState.isVisible ||
+                scaffoldState.drawerState.isOpen ||
+                lazyGridState.firstVisibleItemScrollOffset != 0
     ) {
         when {
             sheetState.isVisible -> scope.launch { sheetState.hide() }

@@ -20,6 +20,9 @@ class HomeViewModel(
     private val _isLoading = mutableStateOf(false)
     val isLoading get() = _isLoading.value
 
+    private val _isExpandSortMenu = mutableStateOf(false)
+    val isExpandSortMenu get() = _isExpandSortMenu.value
+
     private val _selectedOrder = mutableStateOf(sharedPref.sortOrder)
     val selectedOrder get() = _selectedOrder.value
 
@@ -78,5 +81,13 @@ class HomeViewModel(
                 updateTimestamp(timestamp)
             }
         }
+    }
+
+    fun closeSortMenu() {
+        _isExpandSortMenu.value = false
+    }
+
+    fun openSortMenu() {
+        _isExpandSortMenu.value = true
     }
 }

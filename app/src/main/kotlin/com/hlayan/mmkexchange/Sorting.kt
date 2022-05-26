@@ -32,8 +32,23 @@ fun SortByDialog(
 }
 
 @Composable
+fun SortMenu(expanded: Boolean, selectedOrder: SortOrder, onSelect: (SortOrder?) -> Unit = {}) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { onSelect(null) }
+    ) {
+        SortOrder.values().forEach { sortOrder ->
+            DropdownMenuItem(onClick = { onSelect(sortOrder.takeIf { it != selectedOrder }) }) {
+                RadioButton(selected = sortOrder == selectedOrder, onClick = null)
+                Text(text = sortOrder.title)
+            }
+        }
+    }
+}
+
+@Composable
 fun SortBy(selectedOrder: SortOrder, onSelect: (SortOrder?) -> Unit = {}) {
-    Column{
+    Column {
         Text(
             text = "Sort by",
             fontSize = 18.sp,

@@ -1,12 +1,27 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.konan.properties.loadProperties
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-parcelize")
     kotlin("android")
 }
 
+//val properties = gradleLocalProperties(rootDir)
+
+//val RELEASE_KEYSTORE_PATH = properties.getProperty("RELEASE_KEYSTORE_PATH")
+//    .toString()
+//val RELEASE_KEYSTORE_PASSWORD = properties.getProperty("RELEASE_KEYSTORE_PASSWORD")
+//    .toString()
+//val RELEASE_KEY_ALIAS = properties.getProperty("RELEASE_KEY_ALIAS")
+//    .toString()
+//val RELEASE_KEY_PASSWORD = properties.getProperty("RELEASE_KEY_PASSWORD")
+//    .toString()
+
 android {
     compileSdk = 32
-    buildToolsVersion = "32.1.0-rc1"
+    buildToolsVersion = "32.0.0"
     namespace = "com.hlayan.mmkexchange"
 
     defaultConfig {
@@ -18,7 +33,14 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    val debugSigningConfig = signingConfigs.getByName("debug")
+    val releaseSigningConfig = signingConfigs.create("release") {
+        storeFile = File("C:\\Users\\Hlayan Htet Aung\\.android\\debug.keystore")
+        storePassword = "android"
+        keyAlias = "AndroidDebugKey"
+        keyPassword = "android"
+    }
+
+    println(releaseSigningConfig.toString())
 
     buildTypes {
         val proguardFile = getDefaultProguardFile("proguard-android-optimize.txt")
@@ -28,13 +50,12 @@ android {
             isShrinkResources = false
             versionNameSuffix = "-debug"
             applicationIdSuffix = ".debug"
-            signingConfig = debugSigningConfig
             proguardFiles(proguardFile, proguardRules)
         }
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = debugSigningConfig
+            signingConfig = releaseSigningConfig
             proguardFiles(proguardFile, proguardRules)
         }
     }
@@ -74,7 +95,7 @@ dependencies {
 
     implementation("com.google.android.material:material:1.6.0")
     implementation("com.google.accompanist:accompanist-pager:0.19.0")
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.17.0")
 
     implementation("com.github.skydoves:sandwich:1.2.4")
