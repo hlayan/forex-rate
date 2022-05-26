@@ -6,33 +6,36 @@ plugins {
 
 android {
     compileSdk = 32
+    buildToolsVersion = "32.1.0-rc1"
     namespace = "com.hlayan.mmkexchange"
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 32
         versionCode = 1
         versionName = "1.0.0"
         applicationId = "com.hlayan.mmkexchange"
         vectorDrawables.useSupportLibrary = true
     }
 
+    val debugSigningConfig = signingConfigs.getByName("debug")
+
     buildTypes {
+        val proguardFile = getDefaultProguardFile("proguard-android-optimize.txt")
+        val proguardRules = "proguard-rules.pro"
         getByName("debug") {
             isMinifyEnabled = false
             isShrinkResources = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            versionNameSuffix = "-debug"
+            applicationIdSuffix = ".debug"
+            signingConfig = debugSigningConfig
+            proguardFiles(proguardFile, proguardRules)
         }
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            signingConfig = debugSigningConfig
+            proguardFiles(proguardFile, proguardRules)
         }
     }
 
@@ -57,15 +60,15 @@ dependencies {
     implementation("androidx.core:core-ktx:1.7.0")
 
     val composeVersion = "1.1.1"
-    implementation("androidx.compose.ui:ui:1.2.0-beta01")
+    implementation("androidx.compose.ui:ui:1.2.0-beta02")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha11")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha12")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
     implementation("androidx.activity:activity-compose:1.4.0")
 
-    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+    implementation("androidx.core:core-splashscreen:1.0.0-rc01")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
 

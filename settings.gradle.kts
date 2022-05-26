@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 include(":app")
-rootProject.name = "Myanmar Exchange"
+rootProject.name = "myanmar-exchange"
