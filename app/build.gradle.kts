@@ -1,6 +1,4 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.jetbrains.kotlin.konan.properties.loadProperties
-import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -8,20 +6,11 @@ plugins {
     kotlin("android")
 }
 
-//val properties = gradleLocalProperties(rootDir)
-
-//val RELEASE_KEYSTORE_PATH = properties.getProperty("RELEASE_KEYSTORE_PATH")
-//    .toString()
-//val RELEASE_KEYSTORE_PASSWORD = properties.getProperty("RELEASE_KEYSTORE_PASSWORD")
-//    .toString()
-//val RELEASE_KEY_ALIAS = properties.getProperty("RELEASE_KEY_ALIAS")
-//    .toString()
-//val RELEASE_KEY_PASSWORD = properties.getProperty("RELEASE_KEY_PASSWORD")
-//    .toString()
+val localProperties = gradleLocalProperties(rootDir)
+println(localProperties.toString())
 
 android {
     compileSdk = 32
-    buildToolsVersion = "32.0.0"
     namespace = "com.hlayan.mmkexchange"
 
     defaultConfig {
@@ -34,29 +23,21 @@ android {
     }
 
     val releaseSigningConfig = signingConfigs.create("release") {
-        storeFile = File("C:\\Users\\Hlayan Htet Aung\\.android\\debug.keystore")
-        storePassword = "android"
-        keyAlias = "AndroidDebugKey"
-        keyPassword = "android"
+        storeFile = File(localProperties.getProperty("storeFile"))
+        storePassword = localProperties.getProperty("storePassword")
+        keyAlias = localProperties.getProperty("keyAlias")
+        keyPassword = localProperties.getProperty("keyPassword")
     }
 
-    println(releaseSigningConfig.toString())
-
     buildTypes {
-        val proguardFile = getDefaultProguardFile("proguard-android-optimize.txt")
-        val proguardRules = "proguard-rules.pro"
         getByName("debug") {
-            isMinifyEnabled = false
-            isShrinkResources = false
             versionNameSuffix = "-debug"
             applicationIdSuffix = ".debug"
-            proguardFiles(proguardFile, proguardRules)
         }
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = releaseSigningConfig
-            proguardFiles(proguardFile, proguardRules)
         }
     }
 
