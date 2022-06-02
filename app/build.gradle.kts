@@ -7,7 +7,6 @@ plugins {
 }
 
 val localProperties = gradleLocalProperties(rootDir)
-println(localProperties.toString())
 
 android {
     compileSdk = 32
@@ -59,14 +58,14 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.8.0")
 
     val composeVersion = "1.1.1"
-    implementation("androidx.compose.ui:ui:1.2.0-beta02")
+    implementation("androidx.compose.ui:ui:1.2.0-beta03")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha12")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha13")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
     implementation("androidx.activity:activity-compose:1.4.0")
 
@@ -74,7 +73,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
 
-    implementation("com.google.android.material:material:1.6.0")
+    implementation("com.google.android.material:material:1.6.1")
     implementation("com.google.accompanist:accompanist-pager:0.19.0")
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.17.0")
