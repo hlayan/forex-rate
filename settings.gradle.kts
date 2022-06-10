@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 include(":app")
-rootProject.name = "myanmar-exchange"
+rootProject.name = "MyForex"
