@@ -4,6 +4,8 @@ plugins {
     id("com.android.application")
     id("kotlin-parcelize")
     kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 val localProperties = gradleLocalProperties(rootDir)
@@ -83,5 +85,14 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    implementation("com.google.dagger:hilt-android:2.41")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
