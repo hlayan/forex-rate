@@ -2,34 +2,14 @@ package com.hlayan.mmkexchange
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-
-@Composable
-fun SortByDialog(
-    openDialog: MutableState<Boolean>,
-    selectedOrder: SortOrder,
-    onClick: (SortOrder) -> Unit = {}
-) {
-    if (openDialog.value) {
-        Dialog(onDismissRequest = { openDialog.value = false }) {
-            Surface(shape = RoundedCornerShape(8.dp)) {
-                SortBy(selectedOrder) {
-                    openDialog.value = false
-                    it?.let { onClick(it) }
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun SortMenu(expanded: Boolean, selectedOrder: SortOrder, onSelect: (SortOrder?) -> Unit = {}) {
@@ -40,6 +20,7 @@ fun SortMenu(expanded: Boolean, selectedOrder: SortOrder, onSelect: (SortOrder?)
         SortOrder.values().forEach { sortOrder ->
             DropdownMenuItem(onClick = { onSelect(sortOrder.takeIf { it != selectedOrder }) }) {
                 RadioButton(selected = sortOrder == selectedOrder, onClick = null)
+                Spacer(modifier = Modifier.size(16.dp))
                 Text(text = sortOrder.title)
             }
         }
@@ -100,10 +81,10 @@ enum class SortOrder(val title: String) {
     SMALLEST_FIRST("Smallest first")
 }
 
-fun List<ExchangeModel>.sortBy(order: SortOrder): List<ExchangeModel> {
+fun List<Currency>.sortBy(order: SortOrder): List<Currency> {
     return when (order) {
-        SortOrder.ASCENDING -> sortedBy { it.currency.name }
-        SortOrder.DESCENDING -> sortedByDescending { it.currency.name }
+        SortOrder.ASCENDING -> sortedBy { it.name }
+        SortOrder.DESCENDING -> sortedByDescending { it.name }
         SortOrder.LARGEST_FIRST -> sortedByDescending { it.rate.safeDouble }
         SortOrder.SMALLEST_FIRST -> sortedBy { it.rate.safeDouble }
     }
@@ -112,6 +93,11 @@ fun List<ExchangeModel>.sortBy(order: SortOrder): List<ExchangeModel> {
 @Preview(showBackground = true)
 @Composable
 fun SortByPreview() {
-    val selectedOrder by remember { mutableStateOf(SortOrder.LARGEST_FIRST) }
-    SortBy(selectedOrder)
+    SortBy(SortOrder.ASCENDING)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SortMenuPreview() {
+    SortMenu(true, SortOrder.ASCENDING)
 }

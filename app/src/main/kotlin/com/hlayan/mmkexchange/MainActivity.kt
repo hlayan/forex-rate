@@ -2,25 +2,23 @@ package com.hlayan.mmkexchange
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import com.hlayan.mmkexchange.ui.converter.Converter
 import com.hlayan.mmkexchange.ui.home.HomeScreen
-import com.hlayan.mmkexchange.ui.home.HomeViewModel
 import com.hlayan.mmkexchange.ui.theme.MMKExchangeTheme
 import com.hlayan.mmkexchange.ui.theme.isDarkMode
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,27 +30,23 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainNavigation() {
-    val selectedExchangeModel = rememberSaveable { mutableStateOf(ExchangeModel()) }
+    val selectedCurrency = rememberSaveable { mutableStateOf(Currency()) }
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = NavHostScreen.Home.name) {
         composable(NavHostScreen.Home.name) {
-            val context = LocalContext.current
-            val homeViewModel: HomeViewModel = viewModel(initializer = { HomeViewModel(context) })
-            HomeScreen(homeViewModel) {
-                selectedExchangeModel.value = it
+            HomeScreen {
+                selectedCurrency.value = it
                 navController.navigate(NavHostScreen.Converter.name)
             }
         }
         composable(NavHostScreen.Converter.name) {
-            Converter(selectedExchangeModel.value) { navController.navigateUp() }
+            Converter(selectedCurrency.value) { navController.navigateUp() }
         }
     }
 
 //    val showConverter = rememberSaveable { mutableStateOf(false) }
-//    val context = LocalContext.current
-//    val homeViewModel: HomeViewModel = viewModel(initializer = { HomeViewModel(context) })
 //
-//    HomeScreen(homeViewModel) {
+//    HomeScreen {
 //        selectedExchangeModel.value = it
 //        showConverter.value = true
 //    }

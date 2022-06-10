@@ -5,14 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hlayan.mmkexchange.*
-import com.hlayan.mmkexchange.data.remote.ExchangeDao
 import com.hlayan.mmkexchange.data.remote.ExchangeRepository
-import com.hlayan.mmkexchange.data.remote.ExchangeRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(
-    context: Context,
-    private val exchangeRepository: ExchangeRepository = ExchangeRepositoryImpl(ExchangeDao.Instance)
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    @ApplicationContext context: Context,
+    private val exchangeRepository: ExchangeRepository
 ) : ViewModel() {
 
     private val sharedPref = context.sharedPreferences
@@ -26,14 +28,14 @@ class HomeViewModel(
     private val _selectedOrder = mutableStateOf(sharedPref.sortOrder)
     val selectedOrder get() = _selectedOrder.value
 
-    private val exchangeRates = sharedPref.sharedRates?.exchangesList ?: emptyList()
+    private val sharedCurrencies = sharedPref.sharedRates?.currencies ?: emptyList()
 
-    private val ascending = exchangeRates.sortBy(SortOrder.ASCENDING)
-    private val descending = exchangeRates.sortBy(SortOrder.DESCENDING)
-    private val largestFirst = exchangeRates.sortBy(SortOrder.LARGEST_FIRST)
-    private val smallestFirst = exchangeRates.sortBy(SortOrder.SMALLEST_FIRST)
+    private val ascending = sharedCurrencies.sortBy(SortOrder.ASCENDING)
+    private val descending = sharedCurrencies.sortBy(SortOrder.DESCENDING)
+    private val largestFirst = sharedCurrencies.sortBy(SortOrder.LARGEST_FIRST)
+    private val smallestFirst = sharedCurrencies.sortBy(SortOrder.SMALLEST_FIRST)
 
-    private fun SortOrder.sortedList(): List<ExchangeModel> {
+    private fun SortOrder.sortedList(): List<Currency> {
         return when (this) {
             SortOrder.ASCENDING -> ascending
             SortOrder.DESCENDING -> descending
@@ -42,8 +44,8 @@ class HomeViewModel(
         }
     }
 
-    private val _exchangesList = mutableStateOf(selectedOrder.sortedList())
-    val exchangesList get() = _exchangesList.value
+    private val _currencies = mutableStateOf(selectedOrder.sortedList())
+    val currencies get() = _currencies.value
 
     private val _timestamp = mutableStateOf(sharedPref.timestamp)
     val timestamp get() = _timestamp.value
@@ -55,16 +57,14 @@ class HomeViewModel(
 
     private fun updateExchangesList(value: Rates) {
         viewModelScope.launch {
-            _exchangesList.value = value.exchangesList
-//            _exchangesList.value = value.exchangesList.sortBy(_selectedOrder.value)
+            _currencies.value = value.currencies
             sharedPref.sharedRates = value
         }
     }
 
     fun updateSortOrder(value: SortOrder) {
         viewModelScope.launch {
-            _exchangesList.value = value.sortedList()
-//            _exchangesList.value = _exchangesList.value.sortBy(value)
+            _currencies.value = value.sortedList()
             _selectedOrder.value = value
             sharedPref.sortOrder = value
         }

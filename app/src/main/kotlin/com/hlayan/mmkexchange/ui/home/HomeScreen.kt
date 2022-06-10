@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -16,14 +15,14 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hlayan.mmkexchange.*
 import com.hlayan.mmkexchange.ui.theme.DefaultPreviewTheme
 import kotlinx.coroutines.launch
@@ -31,8 +30,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel,
-    onNavigateToConverter: (ExchangeModel) -> Unit = {}
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToConverter: (Currency) -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val lazyGridState = rememberLazyGridState()
@@ -118,18 +117,6 @@ fun HomeScreen(
             },
             content = {
                 val contentDp = remember { 16.dp }
-                val scrollState = rememberScrollState()
-//                Box(Modifier.padding(contentDp)) {
-//                    Column(
-//                        modifier = Modifier.verticalScroll(scrollState),
-//                        verticalArrangement = Arrangement.spacedBy(contentDp),
-//                        horizontalAlignment = Alignment.CenterHorizontally
-//                    ) {
-//                        viewModel.exchangesList.forEach {
-//                            ExchangeList(it) { onNavigateToConverter(it) }
-//                        }
-//                    }
-//                }
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(300.dp),
                     modifier = Modifier.fillMaxSize(),
@@ -138,17 +125,19 @@ fun HomeScreen(
                     contentPadding = PaddingValues(contentDp),
                     state = lazyGridState
                 ) {
-                    items(viewModel.exchangesList) {
-                        ExchangeList(it) { onNavigateToConverter(it) }
+                    items(viewModel.currencies) {
+                        CurrencyItem(it) { onNavigateToConverter(it) }
                     }
                 }
             }
         )
     }
+
+    val firstItemOffset = derivedStateOf { lazyGridState.firstVisibleItemScrollOffset }
     BackHandler(
         sheetState.isVisible ||
                 scaffoldState.drawerState.isOpen ||
-                lazyGridState.firstVisibleItemScrollOffset != 0
+                firstItemOffset.value != 0
     ) {
         when {
             sheetState.isVisible -> scope.launch { sheetState.hide() }
@@ -170,7 +159,5 @@ fun RefreshIcon(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val context = LocalContext.current
-    val homeViewModel: HomeViewModel = viewModel(initializer = { HomeViewModel(context) })
-    DefaultPreviewTheme { HomeScreen(homeViewModel) }
+    DefaultPreviewTheme { HomeScreen() }
 }

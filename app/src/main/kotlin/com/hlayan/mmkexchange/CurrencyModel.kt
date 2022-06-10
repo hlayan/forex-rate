@@ -6,18 +6,18 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class CurrencyModel(
-    val currencyCode: String = Currencies.MMK.name,
-    val currencyName: String = Currencies.MMK.fullName,
-    val flagEmoji: String = Currencies.MMK.flagEmoji,
-    val exchangeRate: String = "1"
+data class ExchangeModel(
+    val currency: Currencies = Currencies.MMK,
+    val rate: String = "1"
 ) : Parcelable
 
 @Keep
 @Parcelize
-data class ExchangeModel(
-    val currency: Currencies = Currencies.MMK,
-    val rate: String = "1"
+data class Currency(
+    val rate: String = "1",
+    val name: String = "MMK",
+    val flagEmoji: String = "\uD83C\uDDF2\uD83C\uDDF2",
+    val fullName: String = "Myanmar Kyat"
 ) : Parcelable
 
 @Keep
@@ -110,4 +110,89 @@ val Rates.exchangesList
         ExchangeModel(Currencies.IDR, IDR),
         ExchangeModel(Currencies.KHR, KHR),
         ExchangeModel(Currencies.SGD, SGD)
+    )
+
+val map = mutableMapOf(
+    "AUD" to "\ud83c\udde6\ud83c\uddfa",
+    "BDT" to "\ud83c\udde7\ud83c\udde9",
+    "BND" to "\ud83c\udde7\ud83c\uddf3",
+    "BRL" to "\ud83c\udde7\ud83c\uddf7",
+    "CAD" to "\ud83c\udde8\ud83c\udde6",
+    "CHF" to "\ud83c\uddeb\ud83c\uddf7",
+    "CNY" to "\ud83c\udde8\ud83c\uddf3",
+    "CZK" to "\ud83c\udde8\ud83c\uddff",
+    "DKK" to "\ud83c\udde9\ud83c\uddf0",
+    "EGP" to "\ud83c\uddea\ud83c\uddec",
+    "EUR" to "\ud83c\uddea\ud83c\uddfa",
+    "GBP" to "\ud83c\uddec\ud83c\udde7",
+    "HKD" to "\ud83c\udded\ud83c\uddf0",
+    "IDR" to "\ud83c\uddee\ud83c\udde9",
+    "ILS" to "\ud83c\uddee\ud83c\uddf1",
+    "INR" to "\ud83c\uddee\ud83c\uddf3",
+    "JPY" to "\ud83c\uddef\ud83c\uddf5",
+    "KES" to "\ud83c\uddf0\ud83c\uddea",
+    "KHR" to "\ud83c\uddf0\ud83c\udded",
+    "KRW" to "\ud83c\uddf0\ud83c\uddf7",
+    "KWD" to "\ud83c\uddf0\ud83c\uddfc",
+    "LAK" to "\ud83c\uddf1\ud83c\udde6",
+    "LKR" to "\ud83c\uddf1\ud83c\uddf0",
+    "MMK" to "\ud83c\uddf2\ud83c\uddf2",
+    "MYR" to "\ud83c\uddf2\ud83c\uddfe",
+    "NOK" to "\ud83c\uddf3\ud83c\uddf4",
+    "NPR" to "\ud83c\uddf3\ud83c\uddf5",
+    "NZD" to "\ud83c\uddf3\ud83c\uddff",
+    "PHP" to "\ud83c\uddf5\ud83c\udded",
+    "PKR" to "\ud83c\uddf5\ud83c\uddf0",
+    "RSD" to "\ud83c\uddf7\ud83c\uddf8",
+    "RUB" to "\ud83c\uddf7\ud83c\uddfa",
+    "SAR" to "\ud83c\uddf8\ud83c\udde6",
+    "SEK" to "\ud83c\uddf8\ud83c\uddea",
+    "SGD" to "\ud83c\uddf8\ud83c\uddec",
+    "THB" to "\ud83c\uddf9\ud83c\udded",
+    "USD" to "\ud83c\uddfa\ud83c\uddf8",
+    "VND" to "\ud83c\uddfb\ud83c\uddf3",
+    "ZAR" to "\ud83c\uddff\ud83c\udde6",
+)
+
+
+val Rates.currencies
+    get() = listOf(
+        Currency(AUD, "AUD", "\ud83c\udde6\ud83c\uddfa", "Australian Dollar"),
+        Currency(BDT, "BDT", "\ud83c\udde7\ud83c\udde9", "Bangladesh Taka"),
+        Currency(BND, "BND", "\ud83c\udde7\ud83c\uddf3", "Brunei Dollar"),
+        Currency(BRL, "BRL", "\ud83c\udde7\ud83c\uddf7", "Brazilian Real"),
+        Currency(CAD, "CAD", "\ud83c\udde8\ud83c\udde6", "Canadian Dollar"),
+        Currency(CHF, "CHF", "\ud83c\uddeb\ud83c\uddf7", "Swiss Franc"),
+        Currency(CNY, "CNY", "\ud83c\udde8\ud83c\uddf3", "Chinese Yuan"),
+        Currency(CZK, "CZK", "\ud83c\udde8\ud83c\uddff", "Czech Koruna"),
+        Currency(DKK, "DKK", "\ud83c\udde9\ud83c\uddf0", "Danish Krone"),
+        Currency(EGP, "EGP", "\ud83c\uddea\ud83c\uddec", "Egyptian Pound"),
+        Currency(EUR, "EUR", "\ud83c\uddea\ud83c\uddfa", "Euro"),
+        Currency(GBP, "GBP", "\ud83c\uddec\ud83c\udde7", "Pound Sterling"),
+        Currency(HKD, "HKD", "\ud83c\udded\ud83c\uddf0", "Hong Kong Dollar"),
+        Currency(IDR, "IDR", "\ud83c\uddee\ud83c\udde9", "Indonesian Rupiah"),
+        Currency(ILS, "ILS", "\ud83c\uddee\ud83c\uddf1", "Israeli Shekel"),
+        Currency(INR, "INR", "\ud83c\uddee\ud83c\uddf3", "Indian Rupee"),
+        Currency(JPY, "JPY", "\ud83c\uddef\ud83c\uddf5", "Japanese Yen"),
+        Currency(KES, "KES", "\ud83c\uddf0\ud83c\uddea", "Kenya Shilling"),
+        Currency(KHR, "KHR", "\ud83c\uddf0\ud83c\udded", "Cambodian Riel"),
+        Currency(KRW, "KRW", "\ud83c\uddf0\ud83c\uddf7", "Korean Won"),
+        Currency(KWD, "KWD", "\ud83c\uddf0\ud83c\uddfc", "Kuwaiti Dinar"),
+        Currency(LAK, "LAK", "\ud83c\uddf1\ud83c\udde6", "Lao Kip"),
+        Currency(LKR, "LKR", "\ud83c\uddf1\ud83c\uddf0", "Sri Lankan Rupee"),
+        Currency(MYR, "MYR", "\ud83c\uddf2\ud83c\uddfe", "Malaysian Ringgit"),
+        Currency(NOK, "NOK", "\ud83c\uddf3\ud83c\uddf4", "Norwegian Kroner"),
+        Currency(NPR, "NPR", "\ud83c\uddf3\ud83c\uddf5", "Nepalese Rupee"),
+        Currency(NZD, "NZD", "\ud83c\uddf3\ud83c\uddff", "New Zealand Dollar"),
+        Currency(PHP, "PHP", "\ud83c\uddf5\ud83c\udded", "Philippines Peso"),
+        Currency(PKR, "PKR", "\ud83c\uddf5\ud83c\uddf0", "Pakistani Rupee"),
+        Currency(RSD, "RSD", "\ud83c\uddf7\ud83c\uddf8", "Serbian Dinar"),
+        Currency(RUB, "RUB", "\ud83c\uddf7\ud83c\uddfa", "Russian Rouble"),
+        Currency(SAR, "SAR", "\ud83c\uddf8\ud83c\udde6", "Saudi Arabian Riyal"),
+        Currency(SEK, "SEK", "\ud83c\uddf8\ud83c\uddea", "Swedish Krona"),
+        Currency(SGD, "USD", "\ud83c\uddf8\ud83c\uddec", "Singapore Dollar"),
+        Currency(THB, "THB", "\ud83c\uddf9\ud83c\udded", "Thai Baht"),
+        Currency(USD, "USD", "\ud83c\uddfa\ud83c\uddf8", "United State Dollar"),
+        Currency(VND, "VND", "\ud83c\uddfb\ud83c\uddf3", "Vietnamese Dong"),
+        Currency(ZAR, "ZAR", "\ud83c\uddff\ud83c\udde6", "South Africa Rand")
     )

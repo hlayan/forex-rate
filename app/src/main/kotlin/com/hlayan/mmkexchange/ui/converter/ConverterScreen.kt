@@ -17,12 +17,12 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hlayan.mmkexchange.ExchangeModel
+import com.hlayan.mmkexchange.Currency
 import com.hlayan.mmkexchange.ui.theme.DefaultPreviewTheme
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Converter(exchangeModel: ExchangeModel, onNavigateUp: () -> Unit = {}) {
+fun Converter(currency: Currency, onNavigateUp: () -> Unit = {}) {
     Surface(Modifier.fillMaxSize()) {
         Column {
             TopAppBar(
@@ -45,9 +45,9 @@ fun Converter(exchangeModel: ExchangeModel, onNavigateUp: () -> Unit = {}) {
                 shape = RectangleShape
             ) {
                 if (checkedState.value) {
-                    CustomConverter(exchangeModel)
+                    CustomConverter(currency)
                 } else {
-                    ExchangeConverter(exchangeModel)
+                    ExchangeConverter(currency)
                 }
             }
 
@@ -78,23 +78,22 @@ fun Converter(exchangeModel: ExchangeModel, onNavigateUp: () -> Unit = {}) {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ExchangeConverter(exchangeModel: ExchangeModel) {
+fun ExchangeConverter(currency: Currency) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.padding(16.dp)
     ) {
 
-        val exchangeRate = rememberSaveable { exchangeModel.rate.replace(",", "").toDouble() }
+        val exchangeRate = rememberSaveable { currency.rate.replace(",", "").toDouble() }
 
         var otherRate by rememberSaveable { mutableStateOf("1") }
-        var mmkRate by rememberSaveable { mutableStateOf(exchangeModel.rate) }
+        var mmkRate by rememberSaveable { mutableStateOf(currency.rate) }
 
         ExchangeTextField(
             text = otherRate,
-            labelText = exchangeModel.currency.run { "$name $flagEmoji" },
-            placeholderText = exchangeModel.currency.name
+            labelText = currency.run { "$name $flagEmoji" },
+            placeholderText = currency.name
         ) { text ->
             if (!text.matches(Regex(floatingPattern))) return@ExchangeTextField
             otherRate = text
@@ -121,25 +120,24 @@ private const val floatingPattern = "([0-9]{0,16}([.][0-9]{0,2})?)"
 
 //private const val floatingPattern = "[+-]?([0-9]{0,16}([.][0-9]{0,2})?|[.][0-9]{0,2})"
 private const val floatingPattern1 = "^(\\d+\\.?\\d*)|(\\.\\d+)$"
-private const val floatingPattern2 = "^(\\d+[.]?\\d*)|([.]\\d+)$"
+//private const val floatingPattern2 = "^(\\d+[.]?\\d*)|([.]\\d+)$"
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CustomConverter(exchangeModel: ExchangeModel) {
+fun CustomConverter(currency: Currency) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.padding(16.dp)
     ) {
 
-        val exchangeRate = exchangeModel.rate.replace(",", "").toDouble()
+        val exchangeRate = currency.rate.replace(",", "").toDouble()
 
         val otherRate = remember { mutableStateOf("1") }
-        val mmkRate = remember { mutableStateOf(exchangeModel.rate) }
+        val mmkRate = remember { mutableStateOf(currency.rate) }
 
         ExchangeTextField(
             text = TextFieldValue(otherRate.value, TextRange(otherRate.value.length)),
-            labelText = exchangeModel.currency.run { "$name $flagEmoji" },
-            placeholderText = exchangeModel.currency.name
+            labelText = currency.run { "$name $flagEmoji" },
+            placeholderText = currency.name
         ) { text ->
             if (!text.text.matches(Regex(floatingPattern))) return@ExchangeTextField
             otherRate.value = text.text
@@ -171,6 +169,6 @@ fun CustomConverter(exchangeModel: ExchangeModel) {
 @Composable
 fun ConverterPreview() {
     DefaultPreviewTheme {
-        Converter(ExchangeModel())
+        Converter(Currency())
     }
 }
