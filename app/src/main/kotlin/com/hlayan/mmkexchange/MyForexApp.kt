@@ -1,9 +1,11 @@
 package com.hlayan.mmkexchange
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
-class App : Application() {
+@HiltAndroidApp
+class MyForexApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
