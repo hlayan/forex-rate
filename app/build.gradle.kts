@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     id("com.android.application")
     id("kotlin-parcelize")
@@ -8,7 +6,7 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
-val localProperties = gradleLocalProperties(rootDir)
+val env: MutableMap<String, String> = System.getenv()
 
 android {
     compileSdk = 32
@@ -24,10 +22,10 @@ android {
     }
 
     val releaseSigningConfig = signingConfigs.create("release") {
-        storeFile = File(localProperties.getProperty("storeFile"))
-        storePassword = localProperties.getProperty("storePassword")
-        keyAlias = localProperties.getProperty("keyAlias")
-        keyPassword = localProperties.getProperty("keyPassword")
+        storeFile = File(env["ReleaseStoreFile"]!!)
+        storePassword = env["ReleaseStorePassword"]
+        keyAlias = env["ReleaseKeyAlias"]
+        keyPassword = env["ReleaseKeyPassword"]
     }
 
     buildTypes {
@@ -62,7 +60,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.8.0")
 
     val composeVersion = "1.1.1"
-    implementation("androidx.compose.ui:ui:1.2.0-beta03")
+    implementation("androidx.compose.ui:ui:1.2.0-rc02")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
@@ -72,7 +70,7 @@ dependencies {
 
     implementation("androidx.core:core-splashscreen:1.0.0-rc01")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
+    implementation("androidx.navigation:navigation-compose:2.5.0-rc02")
 
     implementation("com.google.android.material:material:1.6.1")
     implementation("com.google.accompanist:accompanist-pager:0.19.0")
