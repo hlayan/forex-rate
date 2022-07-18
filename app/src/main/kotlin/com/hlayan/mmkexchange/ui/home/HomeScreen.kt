@@ -1,13 +1,10 @@
 package com.hlayan.mmkexchange.ui.home
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -27,14 +24,14 @@ import com.hlayan.mmkexchange.*
 import com.hlayan.mmkexchange.ui.theme.DefaultPreviewTheme
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToConverter: (Currency) -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val lazyGridState = rememberLazyGridState()
+    val lazyGridState = rememberLazyListState()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
@@ -118,7 +115,7 @@ fun HomeScreen(
             content = {
                 val contentDp = remember { 16.dp }
                 LazyVerticalGrid(
-                    columns = GridCells.Adaptive(300.dp),
+                    cells = GridCells.Adaptive(300.dp),
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(contentDp),
                     horizontalArrangement = Arrangement.spacedBy(contentDp),

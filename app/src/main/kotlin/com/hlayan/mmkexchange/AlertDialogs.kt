@@ -3,9 +3,9 @@ package com.hlayan.mmkexchange
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -101,7 +101,7 @@ fun MutableState<String>.updateValue(inputNumber: String, onFinish: (BigDecimal)
 fun KeysPad(onClick: (String) -> Unit = {}, onDelete: () -> Unit = {}) {
     val numbersList = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0")
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        cells = GridCells.Fixed(3),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
