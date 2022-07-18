@@ -60,17 +60,17 @@ dependencies {
     implementation("androidx.core:core-ktx:1.8.0")
 
     val composeVersion = "1.1.1"
-    implementation("androidx.compose.ui:ui:1.2.0-rc02")
+    implementation("androidx.compose.ui:ui:1.3.0-alpha01")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha13")
+//    implementation("androidx.compose.material3:material3:1.0.0-alpha14")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.activity:activity-compose:1.5.0")
 
     implementation("androidx.core:core-splashscreen:1.0.0-rc01")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.navigation:navigation-compose:2.5.0-rc02")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
+    implementation("androidx.navigation:navigation-compose:2.5.0")
 
     implementation("com.google.android.material:material:1.6.1")
     implementation("com.google.accompanist:accompanist-pager:0.19.0")
