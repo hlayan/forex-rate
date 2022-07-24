@@ -80,7 +80,7 @@ fun HomeScreen(
             topBar = {
                 Column {
                     TopAppBar(
-                        title = { Text("MMK Exchange") },
+                        title = { Text("Forex Rate") },
                         navigationIcon = { NavigationIcon() },
                         actions = {
                             RefreshIcon { viewModel.syncExchangeRates() }
