@@ -85,8 +85,8 @@ fun List<Currency>.sortBy(order: SortOrder): List<Currency> {
     return when (order) {
         SortOrder.ASCENDING -> sortedBy { it.name }
         SortOrder.DESCENDING -> sortedByDescending { it.name }
-        SortOrder.LARGEST_FIRST -> sortedByDescending { it.rate.safeDouble }
-        SortOrder.SMALLEST_FIRST -> sortedBy { it.rate.safeDouble }
+        SortOrder.LARGEST_FIRST -> sortedByDescending { it.rate }
+        SortOrder.SMALLEST_FIRST -> sortedBy { it.rate }
     }
 }
 

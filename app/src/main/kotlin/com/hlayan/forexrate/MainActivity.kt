@@ -76,4 +76,4 @@ inline fun <reified T> String.getModel(): T? {
 
 val Any.json: String? get() = Gson().toJson(this)
 
-val String.safeDouble get() = replace(",", "").toDouble()
+val String.commaRemoved get() = replace(",", "").toDouble()

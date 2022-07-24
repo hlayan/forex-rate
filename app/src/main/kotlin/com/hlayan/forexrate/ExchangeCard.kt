@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hlayan.forexrate.ui.converter.decimalFormat
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -39,7 +40,7 @@ fun CurrencyItem(currency: Currency, onClick: () -> Unit = {}) {
             }
             Column(horizontalAlignment = Alignment.End) {
                 Text(
-                    text = currency.rate,
+                    text = currency.rate.decimalFormat,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = MaterialTheme.colors.primary
