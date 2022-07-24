@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi

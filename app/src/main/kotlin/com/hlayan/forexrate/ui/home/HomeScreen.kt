@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange.ui.home
+package com.hlayan.forexrate.ui.home
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.hlayan.mmkexchange.*
-import com.hlayan.mmkexchange.ui.theme.DefaultPreviewTheme
+import com.hlayan.forexrate.*
+import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)

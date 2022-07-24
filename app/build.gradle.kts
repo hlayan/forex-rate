@@ -10,14 +10,14 @@ val env: MutableMap<String, String> = System.getenv()
 
 android {
     compileSdk = 32
-    namespace = "com.hlayan.mmkexchange"
+    namespace = "com.hlayan.forexrate"
 
     defaultConfig {
         minSdk = 21
         targetSdk = 32
         versionCode = 1
         versionName = "1.0.0"
-        applicationId = "com.hlayan.mmkexchange"
+        applicationId = "com.hlayan.forexrate"
         vectorDrawables.useSupportLibrary = true
     }
 

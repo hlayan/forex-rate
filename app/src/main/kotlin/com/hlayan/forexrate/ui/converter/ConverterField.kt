@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange.ui.converter
+package com.hlayan.forexrate.ui.converter
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.hlayan.mmkexchange.Currencies
+import com.hlayan.forexrate.Currencies
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode

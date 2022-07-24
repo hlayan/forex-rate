@@ -1,11 +1,11 @@
-package com.hlayan.mmkexchange.ui.home
+package com.hlayan.forexrate.ui.home
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hlayan.mmkexchange.*
-import com.hlayan.mmkexchange.data.remote.ExchangeRepository
+import com.hlayan.forexrate.*
+import com.hlayan.forexrate.data.remote.ExchangeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch

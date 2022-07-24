@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange.ui.converter
+package com.hlayan.forexrate.ui.converter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.hlayan.mmkexchange.Currency
-import com.hlayan.mmkexchange.ui.theme.DefaultPreviewTheme
+import com.hlayan.forexrate.Currency
+import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

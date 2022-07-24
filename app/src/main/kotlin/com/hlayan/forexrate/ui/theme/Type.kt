@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange.ui.theme
+package com.hlayan.forexrate.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

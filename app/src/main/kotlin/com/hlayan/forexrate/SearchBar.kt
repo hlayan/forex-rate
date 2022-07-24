@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import android.os.Parcelable
 import androidx.annotation.Keep

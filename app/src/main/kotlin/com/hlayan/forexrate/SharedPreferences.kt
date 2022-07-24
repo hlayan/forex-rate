@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

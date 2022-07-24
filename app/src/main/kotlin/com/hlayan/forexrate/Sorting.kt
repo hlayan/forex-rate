@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

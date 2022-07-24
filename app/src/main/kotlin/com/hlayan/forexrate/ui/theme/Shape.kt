@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange.ui.theme
+package com.hlayan.forexrate.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

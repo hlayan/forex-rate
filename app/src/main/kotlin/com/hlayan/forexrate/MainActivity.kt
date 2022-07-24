@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,10 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
-import com.hlayan.mmkexchange.ui.converter.Converter
-import com.hlayan.mmkexchange.ui.home.HomeScreen
-import com.hlayan.mmkexchange.ui.theme.MMKExchangeTheme
-import com.hlayan.mmkexchange.ui.theme.isDarkMode
+import com.hlayan.forexrate.ui.converter.Converter
+import com.hlayan.forexrate.ui.home.HomeScreen
+import com.hlayan.forexrate.ui.theme.MMKExchangeTheme
+import com.hlayan.forexrate.ui.theme.isDarkMode
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 

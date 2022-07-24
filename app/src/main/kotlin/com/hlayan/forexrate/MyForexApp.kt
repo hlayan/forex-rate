@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

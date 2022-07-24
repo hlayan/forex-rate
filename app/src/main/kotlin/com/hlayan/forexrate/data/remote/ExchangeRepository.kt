@@ -1,6 +1,6 @@
-package com.hlayan.mmkexchange.data.remote
+package com.hlayan.forexrate.data.remote
 
-import com.hlayan.mmkexchange.LatestRates
+import com.hlayan.forexrate.LatestRates
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

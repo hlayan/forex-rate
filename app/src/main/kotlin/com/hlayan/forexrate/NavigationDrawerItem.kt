@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hlayan.mmkexchange.ui.theme.DefaultPreviewTheme
-import com.hlayan.mmkexchange.ui.theme.isDarkMode
+import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
+import com.hlayan.forexrate.ui.theme.isDarkMode
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDateTime

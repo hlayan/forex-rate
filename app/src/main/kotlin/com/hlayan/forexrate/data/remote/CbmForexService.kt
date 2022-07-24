@@ -1,6 +1,6 @@
-package com.hlayan.mmkexchange.data.remote
+package com.hlayan.forexrate.data.remote
 
-import com.hlayan.mmkexchange.LatestRates
+import com.hlayan.forexrate.LatestRates
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module

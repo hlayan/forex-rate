@@ -1,4 +1,4 @@
-package com.hlayan.mmkexchange
+package com.hlayan.forexrate
 
 enum class Currencies(val flagEmoji: String, val fullName: String) {
     AUD("\ud83c\udde6\ud83c\uddfa", "Australian Dollar"),
