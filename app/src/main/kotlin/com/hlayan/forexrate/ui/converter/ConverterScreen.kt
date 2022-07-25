@@ -26,6 +26,8 @@ fun Converter(
     viewModel: ConverterViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit = {}
 ) {
+    viewModel.setSelectedRate(currency.rate)
+
     Surface(Modifier.fillMaxSize()) {
         Column {
             TopAppBar(
@@ -45,36 +47,21 @@ fun Converter(
                 modifier = Modifier.padding(vertical = 10.dp),
                 shape = RectangleShape
             ) {
-                var otherRate by remember { mutableStateOf(TextFieldValue("1.00")) }
-                var mmkRate by remember { mutableStateOf(TextFieldValue(currency.rate.decimalFormat)) }
-
                 Column(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.padding(16.dp)
                 ) {
                     ConverterTextField(
-                        value = otherRate,
+                        value = viewModel.forexRate.value,
                         labelText = currency.run { "$name $flagEmoji" },
-                        placeholderText = currency.name
-                    ) {
-                        otherRate = it
-                        val input = it.text.toDoubleOrNull()
-                        mmkRate = if (input == null) TextFieldValue()
-                        else {
-                            val result = input * currency.rate
-                            TextFieldValue(result.decimalFormat)
-                        }
-                    }
+                        placeholderText = currency.name,
+                        onValueChange = viewModel::updateForexRate
+                    )
 
-                    ConverterTextField(value = mmkRate) {
-                        mmkRate = it
-                        val input = it.text.toDoubleOrNull()
-                        otherRate = if (input == null) TextFieldValue()
-                        else {
-                            val result = input / currency.rate
-                            TextFieldValue(result.decimalFormat)
-                        }
-                    }
+                    ConverterTextField(
+                        value = viewModel.mmkRate.value,
+                        onValueChange = viewModel::updateMmkRate
+                    )
                 }
             }
         }
