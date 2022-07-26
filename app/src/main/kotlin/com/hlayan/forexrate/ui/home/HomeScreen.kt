@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -38,10 +35,7 @@ fun HomeScreen(
     @Composable
     fun SortIcon() {
         Column {
-            IconButton(onClick = {
-                viewModel.openSortMenu()
-//            scope.launch { sheetState.animateTo(ModalBottomSheetValue.Expanded) }
-            }) {
+            IconButton(onClick = { viewModel.openSortMenu() }) {
                 Icon(imageVector = Icons.Filled.Sort, contentDescription = "Sort")
             }
 
@@ -58,9 +52,9 @@ fun HomeScreen(
     @Composable
     fun NavigationIcon() {
         IconButton(
-            onClick = { scope.launch { scaffoldState.drawerState.open() } }
+            onClick = { }
         ) {
-            Icon(Icons.Filled.Menu, Icons.Filled.Menu.name)
+            Icon(Icons.Filled.Search, Icons.Filled.Search.name)
         }
     }
 
@@ -85,41 +79,84 @@ fun HomeScreen(
                         actions = {
                             RefreshIcon { viewModel.syncExchangeRates() }
                             SortIcon()
-                        }
+                        },
+                        backgroundColor = MaterialTheme.colors.surface,
+                        contentColor = MaterialTheme.colors.onSurface
                     )
                     if (viewModel.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth())
                 }
             },
-            drawerGesturesEnabled = true,
-            drawerContent = {
-                NavigationDrawerHeader(viewModel.timestamp)
-                Divider(Modifier.padding(bottom = 8.dp))
-                LazyColumn {
-                    items(3) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { },
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
+            bottomBar = {
+                BottomAppBar(
+                    backgroundColor = MaterialTheme.colors.surface,
+                    contentColor = MaterialTheme.colors.onSurface
+                ) {
+                    BottomNavigationItem(
+                        selected = true,
+                        selectedContentColor = MaterialTheme.colors.primary,
+                        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Default.Home,
+                                contentDescription = null
+                            )
+                        },
+                        label = {
+                            Text(text = "Home")
+                        },
+                        onClick = {}
+                    )
+
+                    BottomNavigationItem(
+                        selected = false,
+                        selectedContentColor = MaterialTheme.colors.primary,
+                        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+                        icon = {
                             Icon(
                                 imageVector = Icons.Default.Settings,
-                                contentDescription = "Setting",
-                                modifier = Modifier.padding(24.dp, 12.dp)
+                                contentDescription = null
                             )
+                        },
+                        label = {
                             Text(text = "Setting")
-                        }
-                    }
+                        }, onClick = {})
                 }
             },
-            content = {
+//            drawerGesturesEnabled = true,
+//            drawerContent = {
+//                NavigationDrawerHeader(viewModel.timestamp)
+//                Divider(Modifier.padding(bottom = 8.dp))
+//                LazyColumn {
+//                    items(3) {
+//                        Row(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .clickable { },
+//                            verticalAlignment = Alignment.CenterVertically
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Default.Settings,
+//                                contentDescription = "Setting",
+//                                modifier = Modifier.padding(24.dp, 12.dp)
+//                            )
+//                            Text(text = "Setting")
+//                        }
+//                    }
+//                }
+//            },
+            content = { paddingValues ->
                 val contentDp = remember { 16.dp }
                 LazyVerticalGrid(
                     cells = GridCells.Adaptive(300.dp),
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(contentDp),
                     horizontalArrangement = Arrangement.spacedBy(contentDp),
-                    contentPadding = PaddingValues(contentDp),
+                    contentPadding = PaddingValues(
+                        contentDp,
+                        contentDp,
+                        contentDp,
+                        bottom = paddingValues.calculateBottomPadding() + contentDp
+                    ),
                     state = lazyGridState
                 ) {
                     items(viewModel.currencies) {

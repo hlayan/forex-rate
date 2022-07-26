@@ -54,7 +54,5 @@ fun MMKExchangeTheme(content: @Composable () -> Unit) {
 @Composable
 private fun StatusBarColor() {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(
-        if (isDarkMode) MaterialTheme.colors.surface else MaterialTheme.colors.primary
-    )
+    systemUiController.setStatusBarColor(MaterialTheme.colors.surface)
 }
