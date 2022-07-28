@@ -15,6 +15,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,7 +40,9 @@ fun HomeScreen(
     @Composable
     fun SortIcon() {
         Column {
-            IconButton(onClick = { viewModel.openSortMenu() }) {
+            IconButton(onClick = {
+                scope.launch { sheetState.show() }
+            }) {
                 Icon(imageVector = Icons.Filled.Sort, contentDescription = "Sort")
             }
 
@@ -65,6 +68,7 @@ fun HomeScreen(
     ModalBottomSheetLayout(
         modifier = Modifier.fillMaxSize(),
         sheetState = sheetState,
+        sheetShape = RectangleShape,
         sheetContent = {
             SortBy(viewModel.selectedOrder) { sortOrder ->
                 scope.launch { sheetState.hide() }
