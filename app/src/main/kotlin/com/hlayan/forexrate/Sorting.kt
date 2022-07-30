@@ -2,9 +2,11 @@ package com.hlayan.forexrate
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,34 +34,36 @@ fun SortMenu(expanded: Boolean, selectedOrder: SortOrder, onSelect: (SortOrder?)
 fun SortBy(selectedOrder: SortOrder, onSelect: (SortOrder?) -> Unit = {}) {
     Column {
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp),
         ) {
+            IconButton(
+                onClick = { onSelect(null) }
+            ) {
+                Icon(
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
+                    imageVector = Icons.Default.Close, contentDescription = "Close"
+                )
+            }
+
             Text(
                 text = "Sort by",
                 fontSize = 20.sp,
-                modifier = Modifier.padding(start = 20.dp)
             )
-
-            IconButton(
-                modifier = Modifier.padding(end = 8.dp),
-                onClick = { onSelect(null) }
-            ) {
-                Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = "Close")
-            }
         }
 
         Divider(Modifier.padding(bottom = 10.dp))
 
-        SortOrder.values().forEach { sortOrder ->
-            RadioItem(
-                title = sortOrder.title,
-                selected = sortOrder == selectedOrder
-            ) {
-                onSelect(sortOrder.takeIf { it != selectedOrder })
+        LazyColumn {
+            items(SortOrder.values()) { sortOrder ->
+                RadioItem(
+                    title = sortOrder.title,
+                    selected = sortOrder == selectedOrder
+                ) {
+                    onSelect(sortOrder.takeIf { it != selectedOrder })
+                }
             }
         }
 
@@ -72,13 +76,14 @@ fun RadioItem(title: String, selected: Boolean, onClick: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
-            .height(48.dp)
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.spacedBy(20.dp),
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RadioButton(selected = selected, onClick = null)
+        RadioButton(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
+            selected = selected,
+            onClick = null
+        )
         Text(text = title)
     }
 }
