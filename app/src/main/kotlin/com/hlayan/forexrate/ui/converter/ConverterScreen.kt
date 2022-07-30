@@ -2,7 +2,6 @@ package com.hlayan.forexrate.ui.converter
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -22,12 +21,14 @@ import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
 @Composable
 fun Converter(
     currency: Currency,
+    modifier: Modifier = Modifier,
     viewModel: ConverterViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit = {}
 ) {
+
     viewModel.setSelectedRate(currency.rate)
 
-    Surface(Modifier.fillMaxSize()) {
+    Surface(modifier) {
         Column {
             TopAppBar(
                 title = { Text(text = "Converter") },

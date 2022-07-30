@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToConverter: (Currency) -> Unit = {}
 ) {
@@ -66,7 +67,7 @@ fun HomeScreen(
     }
 
     ModalBottomSheetLayout(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         sheetState = sheetState,
         sheetShape = RectangleShape,
         sheetContent = {
@@ -95,40 +96,7 @@ fun HomeScreen(
                 }
             },
             bottomBar = {
-                BottomAppBar(
-                    backgroundColor = MaterialTheme.colors.surface,
-                    contentColor = MaterialTheme.colors.onSurface
-                ) {
-                    BottomNavigationItem(
-                        selected = true,
-                        selectedContentColor = MaterialTheme.colors.primary,
-                        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.Home,
-                                contentDescription = null
-                            )
-                        },
-                        label = {
-                            Text(text = "Home")
-                        },
-                        onClick = {}
-                    )
 
-                    BottomNavigationItem(
-                        selected = false,
-                        selectedContentColor = MaterialTheme.colors.primary,
-                        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = null
-                            )
-                        },
-                        label = {
-                            Text(text = "Setting")
-                        }, onClick = {})
-                }
             },
             content = { paddingValues ->
                 val contentDp = remember { 16.dp }
