@@ -14,7 +14,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.hlayan.forexrate.Currency
+import com.hlayan.forexrate.ui.shared.currency.Currency
+import com.hlayan.forexrate.ui.shared.currency.CurrencyField
 import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -53,14 +54,14 @@ fun Converter(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    ConverterTextField(
+                    CurrencyField(
                         value = viewModel.forexRate.value,
                         labelText = currency.run { "$name $flagEmoji" },
                         placeholderText = currency.name,
                         onValueChange = viewModel::updateForexRate
                     )
 
-                    ConverterTextField(
+                    CurrencyField(
                         value = viewModel.mmkRate.value,
                         onValueChange = viewModel::updateMmkRate
                     )

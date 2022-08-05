@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
+import com.hlayan.forexrate.ui.shared.currency.decimalFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

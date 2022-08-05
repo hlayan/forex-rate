@@ -1,6 +1,6 @@
 package com.hlayan.forexrate.data.remote
 
-import com.hlayan.forexrate.LatestRates
+import com.hlayan.forexrate.ui.shared.currency.LatestRates
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

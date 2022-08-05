@@ -1,4 +1,4 @@
-package com.hlayan.forexrate
+package com.hlayan.forexrate.ui.shared.sorting
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hlayan.forexrate.ui.shared.currency.Currency
 
 @Composable
 fun SortMenu(expanded: Boolean, selectedOrder: SortOrder, onSelect: (SortOrder?) -> Unit = {}) {
     DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { onSelect(null) }
+        expanded = expanded, onDismissRequest = { onSelect(null) }
     ) {
         SortOrder.values().forEach { sortOrder ->
             DropdownMenuItem(onClick = { onSelect(sortOrder.takeIf { it != selectedOrder }) }) {

@@ -1,4 +1,4 @@
-package com.hlayan.forexrate
+package com.hlayan.forexrate.data.local
 
 enum class Currencies(val flagEmoji: String, val fullName: String) {
     AUD("\ud83c\udde6\ud83c\uddfa", "Australian Dollar"),

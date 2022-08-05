@@ -1,4 +1,4 @@
-package com.hlayan.forexrate
+package com.hlayan.forexrate.ui.shared.currency
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -11,14 +11,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hlayan.forexrate.ui.converter.decimalFormat
+import com.hlayan.forexrate.data.local.Currencies
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CurrencyItem(currency: Currency, onClick: () -> Unit = {}) {
+fun CurrencyItem(currency: Currency, onClick: (Currency) -> Unit = {}) {
     Card(
         elevation = 4.dp,
-        onClick = onClick
+        onClick = { onClick(currency) }
     ) {
         Row(
             modifier = Modifier

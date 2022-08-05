@@ -1,6 +1,6 @@
 package com.hlayan.forexrate.data.remote
 
-import com.hlayan.forexrate.LatestRates
+import com.hlayan.forexrate.ui.shared.currency.LatestRates
 import com.skydoves.sandwich.getOrNull
 import com.skydoves.sandwich.onSuccess
 import timber.log.Timber

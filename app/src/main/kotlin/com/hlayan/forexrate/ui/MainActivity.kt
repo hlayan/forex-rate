@@ -1,4 +1,4 @@
-package com.hlayan.forexrate
+package com.hlayan.forexrate.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,9 +20,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.zIndex
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.gson.Gson
+import com.hlayan.forexrate.data.local.isDarkMode
+import com.hlayan.forexrate.data.local.sharedPreferences
 import com.hlayan.forexrate.ui.converter.Converter
 import com.hlayan.forexrate.ui.home.HomeScreen
+import com.hlayan.forexrate.ui.search.SearchScreen
 import com.hlayan.forexrate.ui.setting.SettingScreen
+import com.hlayan.forexrate.ui.shared.currency.Currency
 import com.hlayan.forexrate.ui.theme.MMKExchangeTheme
 import com.hlayan.forexrate.ui.theme.isDarkMode
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +46,7 @@ class MainActivity : ComponentActivity() {
 fun MainNavigation() {
     val selectedCurrency = rememberSaveable { mutableStateOf(Currency()) }
     val showConverter = rememberSaveable { mutableStateOf(false) }
+    val showSearch = rememberSaveable { mutableStateOf(false) }
     val selectedScreen = remember { mutableStateOf(NavHostScreen.Home) }
 
     if (showConverter.value) {
@@ -55,12 +60,26 @@ fun MainNavigation() {
         }
     }
 
+    if (showSearch.value) {
+        SearchScreen(
+            modifier = Modifier
+                .zIndex(1f)
+                .fillMaxSize(),
+            onNavigateUp = {
+                showSearch.value = false
+            }
+        )
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.weight(1f)) {
             HomeScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .zIndex(if (selectedScreen.value == NavHostScreen.Home) 1f else 0f),
+                onSearch = {
+                    showSearch.value = true
+                }
             ) {
                 selectedCurrency.value = it
                 showConverter.value = true
@@ -105,6 +124,10 @@ fun MainNavigation() {
 
     BackHandler(showConverter.value) {
         showConverter.value = false
+    }
+
+    BackHandler(showSearch.value) {
+        showSearch.value = false
     }
 
 }

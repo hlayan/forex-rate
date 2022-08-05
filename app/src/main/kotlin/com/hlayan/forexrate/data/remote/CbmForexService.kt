@@ -1,6 +1,6 @@
 package com.hlayan.forexrate.data.remote
 
-import com.hlayan.forexrate.LatestRates
+import com.hlayan.forexrate.ui.shared.currency.LatestRates
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module

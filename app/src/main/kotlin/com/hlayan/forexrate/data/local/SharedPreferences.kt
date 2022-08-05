@@ -1,9 +1,13 @@
-package com.hlayan.forexrate
+package com.hlayan.forexrate.data.local
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.hlayan.forexrate.ui.getModel
+import com.hlayan.forexrate.ui.json
+import com.hlayan.forexrate.ui.shared.currency.Rates
+import com.hlayan.forexrate.ui.shared.sorting.SortOrder
 
 val Context.sharedPreferences: SharedPreferences
     get() = getSharedPreferences("MySharedPreferences", MODE_PRIVATE)

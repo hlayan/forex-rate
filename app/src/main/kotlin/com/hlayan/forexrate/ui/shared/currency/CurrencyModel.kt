@@ -1,8 +1,9 @@
-package com.hlayan.forexrate
+package com.hlayan.forexrate.ui.shared.currency
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import com.hlayan.forexrate.ui.converter.decimalFormat
+import com.hlayan.forexrate.ui.commaRemoved
+import com.hlayan.forexrate.data.local.Currencies
 import kotlinx.parcelize.Parcelize
 
 @Keep
@@ -106,7 +107,7 @@ val Rates.currencies
         Currencies.RUB.makeCurrency(RUB),
         Currencies.SAR.makeCurrency(SAR),
         Currencies.SEK.makeCurrency(SEK),
-        Currencies.SGD.makeCurrency(USD),
+        Currencies.SGD.makeCurrency(SGD),
         Currencies.THB.makeCurrency(THB),
         Currencies.USD.makeCurrency(USD),
         Currencies.VND.makeCurrency(VND),

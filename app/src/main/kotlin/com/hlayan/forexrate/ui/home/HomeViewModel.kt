@@ -4,8 +4,16 @@ import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hlayan.forexrate.*
+import com.hlayan.forexrate.data.local.sharedPreferences
+import com.hlayan.forexrate.data.local.sharedRates
+import com.hlayan.forexrate.data.local.sortOrder
+import com.hlayan.forexrate.data.local.timestamp
 import com.hlayan.forexrate.data.remote.ExchangeRepository
+import com.hlayan.forexrate.ui.shared.currency.Currency
+import com.hlayan.forexrate.ui.shared.currency.Rates
+import com.hlayan.forexrate.ui.shared.currency.currencies
+import com.hlayan.forexrate.ui.shared.sorting.SortOrder
+import com.hlayan.forexrate.ui.shared.sorting.sortBy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch

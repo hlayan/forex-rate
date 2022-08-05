@@ -1,36 +1,35 @@
 package com.hlayan.forexrate.ui.home
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.hlayan.forexrate.Currency
-import com.hlayan.forexrate.CurrencyItem
-import com.hlayan.forexrate.SortBy
-import com.hlayan.forexrate.SortMenu
+import com.hlayan.forexrate.ui.shared.currency.Currency
+import com.hlayan.forexrate.ui.shared.currency.CurrencyList
+import com.hlayan.forexrate.ui.shared.sorting.SortBy
+import com.hlayan.forexrate.ui.shared.sorting.SortMenu
 import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
+    onSearch: () -> Unit = {},
     onNavigateToConverter: (Currency) -> Unit = {}
 ) {
     val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -40,27 +39,25 @@ fun HomeScreen(
 
     @Composable
     fun SortIcon() {
-        Column {
-            IconButton(onClick = {
-                scope.launch { sheetState.show() }
-            }) {
-                Icon(imageVector = Icons.Filled.Sort, contentDescription = "Sort")
-            }
+        IconButton(onClick = {
+            scope.launch { viewModel.openSortMenu() }
+        }) {
+            Icon(imageVector = Icons.Filled.Sort, contentDescription = "Sort")
+        }
 
-            SortMenu(
-                expanded = viewModel.isExpandSortMenu,
-                selectedOrder = viewModel.selectedOrder
-            ) {
-                viewModel.closeSortMenu()
-                it?.let { viewModel.updateSortOrder(it) }
-            }
+        SortMenu(
+            expanded = viewModel.isExpandSortMenu,
+            selectedOrder = viewModel.selectedOrder
+        ) {
+            viewModel.closeSortMenu()
+            it?.let { viewModel.updateSortOrder(it) }
         }
     }
 
     @Composable
     fun NavigationIcon() {
         IconButton(
-            onClick = { }
+            onClick = onSearch
         ) {
             Icon(Icons.Filled.Search, Icons.Filled.Search.name)
         }
@@ -95,27 +92,9 @@ fun HomeScreen(
                     if (viewModel.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth())
                 }
             },
-            bottomBar = {
-
-            },
-            content = { paddingValues ->
-                val contentDp = remember { 16.dp }
-                LazyVerticalGrid(
-                    cells = GridCells.Adaptive(300.dp),
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(contentDp),
-                    horizontalArrangement = Arrangement.spacedBy(contentDp),
-                    contentPadding = PaddingValues(
-                        contentDp,
-                        contentDp,
-                        contentDp,
-                        bottom = paddingValues.calculateBottomPadding() + contentDp
-                    ),
-                    state = lazyGridState
-                ) {
-                    items(viewModel.currencies) {
-                        CurrencyItem(it) { onNavigateToConverter(it) }
-                    }
+            content = {
+                CurrencyList(Modifier.fillMaxSize(), viewModel.currencies) {
+                    onNavigateToConverter(it)
                 }
             }
         )

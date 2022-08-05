@@ -1,4 +1,4 @@
-package com.hlayan.forexrate.ui.converter
+package com.hlayan.forexrate.ui.shared.currency
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
@@ -6,41 +6,35 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.hlayan.forexrate.Currencies
+import com.hlayan.forexrate.data.local.Currencies
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ConverterTextField(
+fun CurrencyField(
     value: TextFieldValue = TextFieldValue(),
     labelText: String = Currencies.MMK.run { "$name $flagEmoji" },
     placeholderText: String = Currencies.MMK.name,
     onValueChange: (TextFieldValue) -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = {
             Text(
                 text = labelText,
-                fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
         },
@@ -48,6 +42,7 @@ fun ConverterTextField(
             Text(
                 text = placeholderText,
                 textAlign = TextAlign.Right,
+                fontSize = 18.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         },
@@ -60,7 +55,6 @@ fun ConverterTextField(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                keyboardController?.hide()
                 focusManager.clearFocus()
             }
         )
@@ -90,5 +84,5 @@ fun Double.getSignificantDigits(significantDigits: Int): String {
 @Preview(showBackground = true)
 @Composable
 fun ConverterFieldPreview() {
-    ConverterTextField {}
+    CurrencyField {}
 }

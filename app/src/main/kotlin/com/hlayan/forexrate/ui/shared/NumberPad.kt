@@ -1,4 +1,4 @@
-package com.hlayan.forexrate
+package com.hlayan.forexrate.ui.shared
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.hlayan.forexrate.data.local.Currencies
+import com.hlayan.forexrate.ui.shared.currency.ExchangeModel
 import java.math.BigDecimal
 
 @Composable
