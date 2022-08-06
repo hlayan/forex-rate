@@ -14,12 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hlayan.forexrate.ui.shared.currency.Currency
 import com.hlayan.forexrate.ui.shared.currency.CurrencyList
-import com.hlayan.forexrate.ui.shared.sorting.SortBy
 import com.hlayan.forexrate.ui.shared.sorting.SortMenu
 import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
 import kotlinx.coroutines.launch
@@ -63,42 +61,30 @@ fun HomeScreen(
         }
     }
 
-    ModalBottomSheetLayout(
+    Scaffold(
         modifier = modifier,
-        sheetState = sheetState,
-        sheetShape = RectangleShape,
-        sheetContent = {
-            SortBy(viewModel.selectedOrder) { sortOrder ->
-                scope.launch { sheetState.hide() }
-                sortOrder ?: return@SortBy
-                viewModel.updateSortOrder(sortOrder)
+        scaffoldState = scaffoldState,
+        topBar = {
+            Column {
+                TopAppBar(
+                    title = { Text("Forex Rate") },
+                    navigationIcon = { NavigationIcon() },
+                    actions = {
+                        RefreshIcon { viewModel.syncExchangeRates() }
+                        SortIcon()
+                    },
+                    backgroundColor = MaterialTheme.colors.surface,
+                    contentColor = MaterialTheme.colors.onSurface
+                )
+                if (viewModel.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth())
+            }
+        },
+        content = {
+            CurrencyList(Modifier.fillMaxSize(), viewModel.currencies) {
+                onNavigateToConverter(it)
             }
         }
-    ) {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            topBar = {
-                Column {
-                    TopAppBar(
-                        title = { Text("Forex Rate") },
-                        navigationIcon = { NavigationIcon() },
-                        actions = {
-                            RefreshIcon { viewModel.syncExchangeRates() }
-                            SortIcon()
-                        },
-                        backgroundColor = MaterialTheme.colors.surface,
-                        contentColor = MaterialTheme.colors.onSurface
-                    )
-                    if (viewModel.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth())
-                }
-            },
-            content = {
-                CurrencyList(Modifier.fillMaxSize(), viewModel.currencies) {
-                    onNavigateToConverter(it)
-                }
-            }
-        )
-    }
+    )
 
     val firstItemOffset = derivedStateOf { lazyGridState.firstVisibleItemScrollOffset }
     BackHandler(
