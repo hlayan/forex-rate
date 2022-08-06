@@ -106,18 +106,20 @@ fun SearchScreen(
                         focusManager.clearFocus()
                         onNavigateUp()
                     }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Close")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
-                    IconButton(
-                        onClick = {
-                            focusManager.moveFocus(FocusDirection.Previous)
-                            inputted.value = TextFieldValue()
-                            currencies.value = emptyList()
+                    if (inputted.value.text.isNotBlank()) {
+                        IconButton(
+                            onClick = {
+                                focusManager.moveFocus(FocusDirection.Previous)
+                                inputted.value = TextFieldValue()
+                                currencies.value = emptyList()
+                            }
+                        ) {
+                            Icon(Icons.Filled.Close, contentDescription = "Clean Input")
                         }
-                    ) {
-                        Icon(Icons.Filled.Close, contentDescription = "Clear Text")
                     }
                 },
                 backgroundColor = MaterialTheme.colors.surface,
