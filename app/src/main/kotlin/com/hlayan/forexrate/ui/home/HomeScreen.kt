@@ -22,7 +22,6 @@ import com.hlayan.forexrate.ui.shared.sorting.SortMenu
 import com.hlayan.forexrate.ui.theme.DefaultPreviewTheme
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -30,7 +29,6 @@ fun HomeScreen(
     onSearch: () -> Unit = {},
     onNavigateToConverter: (Currency) -> Unit = {}
 ) {
-    val sheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val lazyGridState = rememberLazyListState()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -87,17 +85,9 @@ fun HomeScreen(
     )
 
     val firstItemOffset = derivedStateOf { lazyGridState.firstVisibleItemScrollOffset }
-    BackHandler(
-        sheetState.isVisible ||
-                scaffoldState.drawerState.isOpen ||
-                firstItemOffset.value != 0
-    ) {
-        when {
-            sheetState.isVisible -> scope.launch { sheetState.hide() }
-            scaffoldState.drawerState.isOpen -> scope.launch { scaffoldState.drawerState.close() }
-            lazyGridState.firstVisibleItemScrollOffset != 0 -> {
-                scope.launch { lazyGridState.animateScrollToItem(0) }
-            }
+    BackHandler(firstItemOffset.value != 0) {
+        if (lazyGridState.firstVisibleItemScrollOffset != 0) {
+            scope.launch { lazyGridState.animateScrollToItem(0) }
         }
     }
 }
