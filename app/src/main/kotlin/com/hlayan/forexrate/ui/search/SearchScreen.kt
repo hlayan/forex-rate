@@ -9,10 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -24,9 +21,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.hlayan.forexrate.shared.extension.spacesTrimmed
 import com.hlayan.forexrate.data.local.sharedPreferences
 import com.hlayan.forexrate.data.local.sharedRates
+import com.hlayan.forexrate.shared.extension.spacesTrimmed
 import com.hlayan.forexrate.ui.converter.Converter
 import com.hlayan.forexrate.ui.shared.currency.Currency
 import com.hlayan.forexrate.ui.shared.currency.CurrencyList
@@ -110,7 +107,9 @@ fun SearchScreen(
                     }
                 },
                 actions = {
-                    if (inputted.value.text.isNotBlank()) {
+                    val isInputNotBlank =
+                        remember { derivedStateOf { inputted.value.text.isNotBlank() } }
+                    if (isInputNotBlank.value) {
                         IconButton(
                             onClick = {
                                 focusManager.moveFocus(FocusDirection.Previous)
