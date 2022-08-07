@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -81,6 +82,7 @@ fun HomeScreen(
             CurrencyList(Modifier.fillMaxSize(), viewModel.currencies) {
                 onNavigateToConverter(it)
             }
+            LaunchedEffect(Unit) { viewModel.updateCurrencies() }
         }
     )
 

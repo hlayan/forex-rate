@@ -36,23 +36,9 @@ class HomeViewModel @Inject constructor(
     private val _selectedOrder = mutableStateOf(sharedPref.sortOrder)
     val selectedOrder get() = _selectedOrder.value
 
-    private val sharedCurrencies = sharedPref.sharedRates?.currencies ?: emptyList()
+    private var sharedCurrencies = sharedPref.sharedRates?.currencies ?: emptyList()
 
-    private val ascending = sharedCurrencies.sortBy(SortOrder.ASCENDING)
-    private val descending = sharedCurrencies.sortBy(SortOrder.DESCENDING)
-    private val largestFirst = sharedCurrencies.sortBy(SortOrder.LARGEST_FIRST)
-    private val smallestFirst = sharedCurrencies.sortBy(SortOrder.SMALLEST_FIRST)
-
-    private fun SortOrder.sortedList(): List<Currency> {
-        return when (this) {
-            SortOrder.ASCENDING -> ascending
-            SortOrder.DESCENDING -> descending
-            SortOrder.LARGEST_FIRST -> largestFirst
-            SortOrder.SMALLEST_FIRST -> smallestFirst
-        }
-    }
-
-    private val _currencies = mutableStateOf(selectedOrder.sortedList())
+    private val _currencies = mutableStateOf(emptyList<Currency>())
     val currencies get() = _currencies.value
 
     private val _timestamp = mutableStateOf(sharedPref.timestamp)
@@ -63,18 +49,25 @@ class HomeViewModel @Inject constructor(
         sharedPref.timestamp = value
     }
 
-    private fun updateExchangesList(value: Rates) {
+    private fun updateRates(value: Rates) {
         viewModelScope.launch {
-            _currencies.value = value.currencies
+            sharedCurrencies = value.currencies
             sharedPref.sharedRates = value
+            updateCurrencies()
         }
     }
 
     fun updateSortOrder(value: SortOrder) {
         viewModelScope.launch {
-            _currencies.value = value.sortedList()
             _selectedOrder.value = value
             sharedPref.sortOrder = value
+            updateCurrencies(value)
+        }
+    }
+
+    fun updateCurrencies(value: SortOrder = _selectedOrder.value) {
+        viewModelScope.launch {
+            _currencies.value = sharedCurrencies.sortBy(value)
         }
     }
 
@@ -85,7 +78,7 @@ class HomeViewModel @Inject constructor(
                 _isLoading.value = false
                 this ?: return@run
                 if (_timestamp.value == timestamp) return@run
-                updateExchangesList(rates)
+                updateRates(rates)
                 updateTimestamp(timestamp)
             }
         }

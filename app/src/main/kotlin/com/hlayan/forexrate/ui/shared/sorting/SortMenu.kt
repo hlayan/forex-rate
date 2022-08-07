@@ -14,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hlayan.forexrate.ui.shared.currency.Currency
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun SortMenu(expanded: Boolean, selectedOrder: SortOrder, onSelect: (SortOrder?) -> Unit = {}) {
@@ -95,12 +97,14 @@ enum class SortOrder(val title: String) {
     SMALLEST_FIRST("Smallest first")
 }
 
-fun List<Currency>.sortBy(order: SortOrder): List<Currency> {
-    return when (order) {
-        SortOrder.ASCENDING -> sortedBy { it.name }
-        SortOrder.DESCENDING -> sortedByDescending { it.name }
-        SortOrder.LARGEST_FIRST -> sortedByDescending { it.rate }
-        SortOrder.SMALLEST_FIRST -> sortedBy { it.rate }
+suspend fun List<Currency>.sortBy(order: SortOrder): List<Currency> {
+    return withContext(Dispatchers.IO) {
+        when (order) {
+            SortOrder.ASCENDING -> sortedBy { it.name }
+            SortOrder.DESCENDING -> sortedByDescending { it.name }
+            SortOrder.LARGEST_FIRST -> sortedByDescending { it.rate }
+            SortOrder.SMALLEST_FIRST -> sortedBy { it.rate }
+        }
     }
 }
 
