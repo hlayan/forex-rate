@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -69,7 +69,7 @@ fun HomeScreen(
                     title = { Text("Forex Rate") },
                     navigationIcon = { NavigationIcon() },
                     actions = {
-                        RefreshIcon { viewModel.syncExchangeRates() }
+                        RefreshIconButton { viewModel.syncExchangeRates() }
                         SortIcon()
                     },
                     backgroundColor = MaterialTheme.colors.surface,
@@ -95,9 +95,12 @@ fun HomeScreen(
 }
 
 @Composable
-fun RefreshIcon(onClick: () -> Unit) {
+fun RefreshIconButton(onClick: () -> Unit) {
     IconButton(onClick = onClick) {
-        Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
+        Icon(
+            imageVector = Icons.Default.Sync,
+            contentDescription = "Refresh"
+        )
     }
 }
 
