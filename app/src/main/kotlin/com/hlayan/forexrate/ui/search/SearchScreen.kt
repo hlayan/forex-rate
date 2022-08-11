@@ -1,5 +1,6 @@
 package com.hlayan.forexrate.ui.search
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,10 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.hlayan.forexrate.data.local.sharedPreferences
@@ -53,13 +57,15 @@ fun SearchScreen(
     }
 
     Surface(modifier) {
-
         Column {
 
             val currencies = remember { mutableStateOf(emptyList<Currency>()) }
 
             val focusManager = LocalFocusManager.current
             val inputted = remember { mutableStateOf(TextFieldValue()) }
+
+            val isInputNotBlank =
+                remember { derivedStateOf { inputted.value.text.isNotBlank() } }
 
             TopAppBar(
                 title = {
@@ -81,22 +87,37 @@ fun SearchScreen(
                         }
                     }
 
-                    BasicTextField(
-                        value = inputted.value,
-                        onValueChange = { input ->
-                            inputted.value = input
-                        },
-                        textStyle = TextStyle(fontSize = 18.sp),
-                        singleLine = true,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusRequester(focusRequester),
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                focusManager.clearFocus()
-                            }
+                    Box {
+
+                        if (!isInputNotBlank.value) {
+                            Text(
+                                text = "Search",
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colors.onSurface.copy(ContentAlpha.medium)
+                            )
+                        }
+
+                        BasicTextField(
+                            value = inputted.value,
+                            onValueChange = { input ->
+                                inputted.value = input
+                            },
+                            textStyle = TextStyle(
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colors.onSurface
+                            ),
+                            singleLine = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .focusRequester(focusRequester),
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    focusManager.clearFocus()
+                                }
+                            ),
+                            cursorBrush = SolidColor(MaterialTheme.colors.onSurface)
                         )
-                    )
+                    }
                 },
                 navigationIcon = {
                     IconButton(onClick = {
@@ -107,8 +128,6 @@ fun SearchScreen(
                     }
                 },
                 actions = {
-                    val isInputNotBlank =
-                        remember { derivedStateOf { inputted.value.text.isNotBlank() } }
                     if (isInputNotBlank.value) {
                         IconButton(
                             onClick = {
@@ -122,8 +141,10 @@ fun SearchScreen(
                     }
                 },
                 backgroundColor = MaterialTheme.colors.surface,
-                contentColor = MaterialTheme.colors.onSurface
+                contentColor = MaterialTheme.colors.onSurface,
+                elevation = 0.dp
             )
+            Divider()
 
             CurrencyList(Modifier.fillMaxSize(), currencies.value) {
                 focusManager.clearFocus()
