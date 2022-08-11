@@ -3,8 +3,7 @@ package com.hlayan.forexrate.ui.shared.currency
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -57,6 +56,9 @@ fun CurrencyField(
             onDone = {
                 focusManager.clearFocus()
             }
+        ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            unfocusedBorderColor = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
         )
     )
 }

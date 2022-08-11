@@ -1,9 +1,8 @@
 package com.hlayan.forexrate.ui.shared.currency
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,9 +15,10 @@ import com.hlayan.forexrate.data.local.Currencies
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CurrencyItem(currency: Currency, onClick: (Currency) -> Unit = {}) {
-    Card(
-        elevation = 4.dp,
-        onClick = { onClick(currency) }
+    Surface(
+        shape = MaterialTheme.shapes.medium,
+        onClick = { onClick(currency) },
+        border = BorderStroke(1.dp, MaterialTheme.colors.onSurface.copy(alpha = 0.12f))
     ) {
         Row(
             modifier = Modifier
