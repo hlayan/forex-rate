@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,29 +42,26 @@ fun Converter(
                     }
                 },
                 backgroundColor = MaterialTheme.colors.surface,
-                contentColor = MaterialTheme.colors.onSurface
+                contentColor = MaterialTheme.colors.onSurface,
+                elevation = 0.dp
             )
+            Divider()
 
-            Card(
-                modifier = Modifier.padding(vertical = 10.dp),
-                shape = RectangleShape
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(16.dp)
             ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    CurrencyField(
-                        value = viewModel.forexRate.value,
-                        labelText = currency.run { "$name $flagEmoji" },
-                        placeholderText = currency.name,
-                        onValueChange = viewModel::updateForexRate
-                    )
+                CurrencyField(
+                    value = viewModel.forexRate.value,
+                    labelText = currency.run { "$name $flagEmoji" },
+                    placeholderText = currency.name,
+                    onValueChange = viewModel::updateForexRate
+                )
 
-                    CurrencyField(
-                        value = viewModel.mmkRate.value,
-                        onValueChange = viewModel::updateMmkRate
-                    )
-                }
+                CurrencyField(
+                    value = viewModel.mmkRate.value,
+                    onValueChange = viewModel::updateMmkRate
+                )
             }
         }
     }
