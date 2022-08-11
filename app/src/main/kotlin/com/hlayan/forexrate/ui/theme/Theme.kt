@@ -10,25 +10,28 @@ import androidx.compose.runtime.setValue
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColor = darkColors(
-    primary = Orange,
-    primaryVariant = Orange,
-    secondary = Orange
+    primary = Primary,
+    primaryVariant = Primary,
+    secondary = Primary,
+    background = Dark,
+    surface = Dark,
+    onPrimary = OnDark,
+    onSecondary = OnDark,
+    onBackground = OnDark,
+    onSurface = OnDark,
 )
 
 private val LightColor = lightColors(
-    primary = Orange,
-    primaryVariant = Orange,
-    secondary = Orange,
-    secondaryVariant = Orange
-
-    /* Other default colors to override
-background = Color.White,
-surface = Color.White,
-onPrimary = Color.White,
-onSecondary = Color.Black,
-onBackground = Color.Black,
-onSurface = Color.Black,
-*/
+    primary = Primary,
+    primaryVariant = Primary,
+    secondary = Primary,
+    secondaryVariant = Primary,
+    background = Light,
+    surface = Light,
+    onPrimary = OnLight,
+    onSecondary = OnLight,
+    onBackground = OnLight,
+    onSurface = OnLight,
 )
 
 var isDarkMode by mutableStateOf(false)
