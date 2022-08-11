@@ -1,5 +1,6 @@
 package com.hlayan.forexrate.ui.converter
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -65,6 +66,8 @@ fun Converter(
             }
         }
     }
+
+    BackHandler { onNavigateUp() }
 }
 
 private const val floatingPattern = "([0-9]{0,16}([.][0-9]{0,2})?)"

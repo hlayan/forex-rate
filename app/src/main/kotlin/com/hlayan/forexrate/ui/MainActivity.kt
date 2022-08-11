@@ -127,15 +127,6 @@ fun MainNavigation() {
             }
         }
     }
-
-    BackHandler(showConverter.value) {
-        showConverter.value = false
-    }
-
-    BackHandler(showSearch.value) {
-        showSearch.value = false
-    }
-
 }
 
 enum class NavHostScreen(val icon: ImageVector) {
