@@ -16,6 +16,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hlayan.forexrate.ui.shared.currency.Currency
 import com.hlayan.forexrate.ui.shared.currency.CurrencyList
@@ -73,8 +74,10 @@ fun HomeScreen(
                         SortIcon()
                     },
                     backgroundColor = MaterialTheme.colors.surface,
-                    contentColor = MaterialTheme.colors.onSurface
+                    contentColor = MaterialTheme.colors.onSurface,
+                    elevation = 0.dp
                 )
+                Divider(thickness = 1.dp)
                 if (viewModel.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth())
             }
         },

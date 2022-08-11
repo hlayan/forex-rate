@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.gson.Gson
@@ -71,53 +72,58 @@ fun MainNavigation() {
         )
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.weight(1f)) {
-            HomeScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .zIndex(if (selectedScreen.value == NavHostScreen.Home) 1f else 0f),
-                onSearch = {
-                    showSearch.value = true
-                }
-            ) {
-                selectedCurrency.value = it
-                showConverter.value = true
-            }
+    Surface {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-            SettingScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .zIndex(if (selectedScreen.value == NavHostScreen.Setting) 1f else 0f),
-            )
-
-            BackHandler(selectedScreen.value != NavHostScreen.Home) {
-                selectedScreen.value = NavHostScreen.Home
-            }
-        }
-
-        BottomNavigation(
-            backgroundColor = MaterialTheme.colors.surface,
-            contentColor = MaterialTheme.colors.onSurface
-        ) {
-            NavHostScreen.values().forEach {
-                BottomNavigationItem(
-                    selected = it == selectedScreen.value,
-                    selectedContentColor = MaterialTheme.colors.primary,
-                    unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
-                    icon = {
-                        Icon(
-                            imageVector = it.icon,
-                            contentDescription = it.name
-                        )
-                    },
-                    label = {
-                        Text(text = it.name)
-                    },
-                    onClick = {
-                        selectedScreen.value = it
+            Box(modifier = Modifier.weight(1f)) {
+                HomeScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .zIndex(if (selectedScreen.value == NavHostScreen.Home) 1f else 0f),
+                    onSearch = {
+                        showSearch.value = true
                     }
+                ) {
+                    selectedCurrency.value = it
+                    showConverter.value = true
+                }
+
+                SettingScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .zIndex(if (selectedScreen.value == NavHostScreen.Setting) 1f else 0f),
                 )
+
+                BackHandler(selectedScreen.value != NavHostScreen.Home) {
+                    selectedScreen.value = NavHostScreen.Home
+                }
+            }
+
+            Divider()
+            BottomNavigation(
+                backgroundColor = MaterialTheme.colors.surface,
+                contentColor = MaterialTheme.colors.onSurface,
+                elevation = 0.dp
+            ) {
+                NavHostScreen.values().forEach {
+                    BottomNavigationItem(
+                        selected = it == selectedScreen.value,
+                        selectedContentColor = MaterialTheme.colors.primary,
+                        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+                        icon = {
+                            Icon(
+                                imageVector = it.icon,
+                                contentDescription = it.name
+                            )
+                        },
+                        label = {
+                            Text(text = it.name)
+                        },
+                        onClick = {
+                            selectedScreen.value = it
+                        }
+                    )
+                }
             }
         }
     }
