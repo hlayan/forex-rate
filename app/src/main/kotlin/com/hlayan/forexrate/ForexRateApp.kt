@@ -5,7 +5,7 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
-class MyForexApp : Application() {
+class ForexRateApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
