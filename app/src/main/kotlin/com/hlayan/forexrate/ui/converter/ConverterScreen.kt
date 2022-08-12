@@ -3,7 +3,8 @@ package com.hlayan.forexrate.ui.converter
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -48,21 +49,25 @@ fun Converter(
             )
             Divider()
 
-            Column(
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp)
             ) {
-                CurrencyField(
-                    value = viewModel.forexRate.value,
-                    labelText = currency.run { "$name $flagEmoji" },
-                    placeholderText = currency.name,
-                    onValueChange = viewModel::updateForexRate
-                )
+                item {
+                    CurrencyField(
+                        value = viewModel.forexRate.value,
+                        labelText = currency.run { "$name $flagEmoji" },
+                        placeholderText = currency.name,
+                        onValueChange = viewModel::updateForexRate
+                    )
+                }
 
-                CurrencyField(
-                    value = viewModel.mmkRate.value,
-                    onValueChange = viewModel::updateMmkRate
-                )
+                item {
+                    CurrencyField(
+                        value = viewModel.mmkRate.value,
+                        onValueChange = viewModel::updateMmkRate
+                    )
+                }
             }
         }
     }
