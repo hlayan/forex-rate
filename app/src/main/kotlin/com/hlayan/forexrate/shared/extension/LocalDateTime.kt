@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-val LocalDateTime.uiFormat: String get() = toString("dd/MM/yyyy h:mm a")
+val LocalDateTime.uiFormat: String get() = toString("E, d MMM yyyy")
 
 fun LocalDateTime.toString(pattern: String): String = format(DateTimeFormatter.ofPattern(pattern))
 

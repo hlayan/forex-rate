@@ -67,9 +67,22 @@ fun HomeScreen(
         topBar = {
             Column {
                 TopAppBar(
-                    title = { Text("Forex Rate") },
+                    title = {
+//                        Column {
+//                            Text("Forex Rate")
+////                            Text(
+////                                viewModel.timestamp?.localDateTime?.uiFormat.toString(),
+////                                fontSize = 12.sp,
+////                                fontWeight = FontWeight.Normal,
+////                                modifier = Modifier.alpha(0.78f)
+////                            )
+//                        }
+                    },
                     navigationIcon = { NavigationIcon() },
                     actions = {
+//                        IconButton(onClick = { /*TODO*/ }) {
+//                            Icon(imageVector = Icons.Outlined.Settings, contentDescription = null)
+//                        }
                         RefreshIconButton { viewModel.syncExchangeRates() }
                         SortIcon()
                     },
@@ -77,13 +90,16 @@ fun HomeScreen(
                     contentColor = MaterialTheme.colors.onSurface,
                     elevation = 0.dp
                 )
-                Divider(thickness = 1.dp)
+//                Divider(thickness = 1.dp)
                 if (viewModel.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth())
             }
         },
         content = {
-            CurrencyList(Modifier.fillMaxSize(), viewModel.currencies) {
-                onNavigateToConverter(it)
+            Column {
+
+                CurrencyList(Modifier.fillMaxSize(), viewModel.currencies) {
+                    onNavigateToConverter(it)
+                }
             }
             LaunchedEffect(Unit) { viewModel.updateCurrencies() }
         }

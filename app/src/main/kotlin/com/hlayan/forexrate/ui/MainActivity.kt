@@ -99,32 +99,32 @@ fun MainNavigation() {
                 }
             }
 
-            Divider()
-            BottomNavigation(
-                backgroundColor = MaterialTheme.colors.surface,
-                contentColor = MaterialTheme.colors.onSurface,
-                elevation = 0.dp
-            ) {
-                NavHostScreen.values().forEach {
-                    BottomNavigationItem(
-                        selected = it == selectedScreen.value,
-                        selectedContentColor = MaterialTheme.colors.primary,
-                        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
-                        icon = {
-                            Icon(
-                                imageVector = it.icon,
-                                contentDescription = it.name
-                            )
-                        },
-                        label = {
-                            Text(text = it.name)
-                        },
-                        onClick = {
-                            selectedScreen.value = it
-                        }
-                    )
-                }
-            }
+//            Divider()
+//            BottomNavigation(
+//                backgroundColor = MaterialTheme.colors.surface,
+//                contentColor = MaterialTheme.colors.onSurface,
+//                elevation = 0.dp
+//            ) {
+//                NavHostScreen.values().forEach {
+//                    BottomNavigationItem(
+//                        selected = it == selectedScreen.value,
+//                        selectedContentColor = MaterialTheme.colors.primary,
+//                        unselectedContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+//                        icon = {
+//                            Icon(
+//                                imageVector = it.icon,
+//                                contentDescription = it.name
+//                            )
+//                        },
+//                        label = {
+//                            Text(text = it.name)
+//                        },
+//                        onClick = {
+//                            selectedScreen.value = it
+//                        }
+//                    )
+//                }
+//            }
         }
     }
 }
