@@ -1,18 +1,16 @@
 package com.hlayan.forexrate.ui.shared.currency
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CurrencyList(
     modifier: Modifier = Modifier,
@@ -22,7 +20,7 @@ fun CurrencyList(
 ) {
     LazyVerticalGrid(
         modifier = modifier,
-        cells = GridCells.Adaptive(300.dp),
+        columns = GridCells.Adaptive(300.dp),
         verticalArrangement = Arrangement.spacedBy(padding),
         horizontalArrangement = Arrangement.spacedBy(padding),
         contentPadding = PaddingValues(padding),

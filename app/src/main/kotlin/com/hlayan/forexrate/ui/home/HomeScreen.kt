@@ -10,10 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.filled.Sync
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -105,7 +102,10 @@ fun HomeScreen(
         }
     )
 
-    val firstItemOffset = derivedStateOf { lazyGridState.firstVisibleItemScrollOffset }
+
+    val firstItemOffset = remember {
+        derivedStateOf { lazyGridState.firstVisibleItemScrollOffset }
+    }
     BackHandler(firstItemOffset.value != 0) {
         if (lazyGridState.firstVisibleItemScrollOffset != 0) {
             scope.launch { lazyGridState.animateScrollToItem(0) }

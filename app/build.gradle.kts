@@ -9,12 +9,15 @@ plugins {
 val env: MutableMap<String, String> = System.getenv()
 
 android {
-    compileSdk = 32
+
+    val sdkVersion = 33
+
+    compileSdk = sdkVersion
     namespace = "com.hlayan.forexrate"
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = sdkVersion
         versionCode = 1
         versionName = "1.0.0"
         applicationId = "com.hlayan.forexrate"
@@ -57,35 +60,36 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.core:core-ktx:1.9.0")
 
-    val composeVersion = "1.1.1"
-    implementation("androidx.compose.ui:ui:1.3.0-alpha02")
-    implementation("androidx.compose.material:material:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.compose.material:material-icons-extended:$composeVersion")
-//    implementation("androidx.compose.material3:material3:1.0.0-alpha14")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.compose.ui:ui:1.2.1")
+    implementation("androidx.compose.material:material:1.2.1")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.2.1")
+    implementation("androidx.compose.material:material-icons-extended:1.2.1")
     implementation("androidx.activity:activity-compose:1.5.1")
 
     implementation("androidx.core:core-splashscreen:1.0.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.navigation:navigation-compose:2.5.1")
+
+//    implementation("androidx.compose.material3:material3:1.0.0-alpha14")
+//    implementation("androidx.navigation:navigation-compose:2.5.2")
+//    implementation("com.google.accompanist:accompanist-pager:0.19.0")
 
     implementation("com.google.android.material:material:1.6.1")
-//    implementation("com.google.accompanist:accompanist-pager:0.19.0")
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.9.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.17.0")
 
-    implementation("com.github.skydoves:sandwich:1.2.4")
+    implementation("com.github.skydoves:sandwich:1.3.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    implementation("com.google.dagger:hilt-android:2.41")
+    implementation("com.google.dagger:hilt-android:2.43.2")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.43.2")
+
+    debugImplementation("androidx.compose.ui:ui-tooling:1.2.1")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
 }
