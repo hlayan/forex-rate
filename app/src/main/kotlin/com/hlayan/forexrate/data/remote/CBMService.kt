@@ -13,10 +13,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import java.util.concurrent.TimeUnit
 
-interface CbmForexService {
+interface CBMService {
 
     @GET("latest")
-    suspend fun syncLatestRates(): ApiResponse<LatestRates>
+    suspend fun getLatestRates(): ApiResponse<LatestRates>
 
 }
 
@@ -27,8 +27,8 @@ object ApiModule {
     private const val BASE_URL = "https://forex.cbm.gov.mm//api/"
 
     @Provides
-    fun provideCbmForexService(retrofit: Retrofit): CbmForexService {
-        return retrofit.create(CbmForexService::class.java)
+    fun provideCbmForexService(retrofit: Retrofit): CBMService {
+        return retrofit.create(CBMService::class.java)
     }
 
     @Provides

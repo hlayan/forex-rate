@@ -8,7 +8,7 @@ import com.hlayan.forexrate.data.local.sharedPreferences
 import com.hlayan.forexrate.data.local.sharedRates
 import com.hlayan.forexrate.data.local.sortOrder
 import com.hlayan.forexrate.data.local.timestamp
-import com.hlayan.forexrate.data.remote.ExchangeRepository
+import com.hlayan.forexrate.data.remote.CBMRepository
 import com.hlayan.forexrate.ui.shared.currency.Currency
 import com.hlayan.forexrate.ui.shared.currency.Rates
 import com.hlayan.forexrate.ui.shared.currency.currencies
@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @ApplicationContext context: Context,
-    private val exchangeRepository: ExchangeRepository
+    private val cbmRepository: CBMRepository
 ) : ViewModel() {
 
     private val sharedPref = context.sharedPreferences
@@ -74,7 +74,7 @@ class HomeViewModel @Inject constructor(
     fun syncExchangeRates() {
         _isLoading.value = if (_isLoading.value) return else true
         viewModelScope.launch {
-            exchangeRepository.getLatestRates().run {
+            cbmRepository.getLatestRates().run {
                 _isLoading.value = false
                 this ?: return@run
                 if (_timestamp.value == timestamp) return@run

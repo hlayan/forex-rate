@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 
-interface ExchangeRepository {
+interface CBMDataSource {
 
     suspend fun getLatestRates(): LatestRates?
 
@@ -14,10 +14,10 @@ interface ExchangeRepository {
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class ExchangeModule {
+abstract class CBMDataSourceModule {
 
     @Binds
-    abstract fun bindExchangeRepository(
-        exchangeRepositoryImpl: ExchangeRepositoryImpl
-    ): ExchangeRepository
+    abstract fun bindCBMDataSource(
+        networkCBMDataSource: NetworkCBMDataSource
+    ): CBMDataSource
 }
