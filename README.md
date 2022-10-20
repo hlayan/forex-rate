@@ -1,15 +1,19 @@
-# my-forex
+# Forex Rate
 
-a sample project in which I do all the technology I want to try 🤪
+An app that show exchange rates from Central Bank of Myanmar.
 
-Currently, I have tried the following tech 😄
+## Screenshots
 
-- Jetpack Compose
-- Gradle with Kotlin Dsl
-- Dagger-Hilt
-- Timber
-- Sandwich
+<table align="center">
+   <tr>
+      <td><img src="https://github.com/hlayan/forex-rate/blob/main/screenshots/1.PNG"></td>
+      <td><img src="https://github.com/hlayan/forex-rate/blob/main/screenshots/2.PNG"></td>
+      <td><img src="https://github.com/hlayan/forex-rate/blob/main/screenshots/3.PNG"></td>
+   </tr>
+</table>
 
-That's all for now in my head 😅.
+## Download
 
-I will update more in the future.
+You can easily install from [google play](https://play.google.com/store/apps/details?id=com.hlayan.forexrate&hl=en).
+
+For directly download, see [releases](https://github.com/hlayan/forex-rate/releases)
