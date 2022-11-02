@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -80,7 +81,7 @@ fun HomeScreen(
 //                        IconButton(onClick = { /*TODO*/ }) {
 //                            Icon(imageVector = Icons.Outlined.Settings, contentDescription = null)
 //                        }
-                        RefreshIconButton { viewModel.syncExchangeRates() }
+                        RefreshIconButton { viewModel.updateCurrencies() }
                         SortIcon()
                     },
                     backgroundColor = MaterialTheme.colors.surface,
@@ -91,14 +92,12 @@ fun HomeScreen(
                 if (viewModel.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth())
             }
         },
-        content = {
-            Column {
-
+        content = { padding ->
+            Column(Modifier.padding(padding)) {
                 CurrencyList(Modifier.fillMaxSize(), viewModel.currencies) {
                     onNavigateToConverter(it)
                 }
             }
-            LaunchedEffect(Unit) { viewModel.updateCurrencies() }
         }
     )
 
