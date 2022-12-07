@@ -2,6 +2,11 @@
 
 An app that show exchange rates from Central Bank of Myanmar.
 
+## Features
+
+Forex Rate displays exchange rates from the Central Bank of Myanmar. Users can calculate exchanges by clicking specific items respectively to MMK. Users can also sort rates by ascending, decending, largest first and smallest first. Users can also search currencies by inputting some keywords: currency fullname or abbreviations.
+
+
 ## Screenshots
 
 <table align="center">
