@@ -6,8 +6,6 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
-val env: MutableMap<String, String> = System.getenv()
-
 android {
 
     val sdkVersion = 33
@@ -24,13 +22,6 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    val releaseSigningConfig = signingConfigs.create("release") {
-        storeFile = File(env["ReleaseStoreFile"]!!)
-        storePassword = env["ReleaseStorePassword"]
-        keyAlias = env["ReleaseKeyAlias"]
-        keyPassword = env["ReleaseKeyPassword"]
-    }
-
     buildTypes {
         debug {
             versionNameSuffix = "-debug"
@@ -39,7 +30,11 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = releaseSigningConfig
+
+            // To publish on the Play store a private signing key is required, but to allow anyone
+            // who clones the code to sign and run the release variant, use the debug signing key.
+            // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -54,12 +49,12 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.3.2" // needed kotlin version 1.7.20
     }
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2022.11.00"))
+    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
 
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material:material")
@@ -76,7 +71,7 @@ dependencies {
 //    implementation("com.google.accompanist:accompanist-pager:0.19.0")
 
     implementation("com.google.android.material:material:1.7.0")
-    implementation("com.google.code.gson:gson:2.10")
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
 
     implementation("com.github.skydoves:sandwich:1.3.2")
@@ -91,7 +86,7 @@ dependencies {
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.0")
 }
 
 // Allow references to generated code
