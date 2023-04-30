@@ -68,7 +68,7 @@ val Double.decimalFormat
         return if (this < 1) {
             getSignificantDigits(2)
         } else {
-            DecimalFormat("0.00").format(this)
+            DecimalFormat("#,##0.0#").format(this)
         }
     }
 

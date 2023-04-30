@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -28,7 +29,7 @@ fun Converter(
     onNavigateUp: () -> Unit = {}
 ) {
 
-    viewModel.setSelectedRate(currency.rate)
+    LaunchedEffect(currency) { viewModel.setSelectedRate(currency.rate) }
 
     Surface(modifier) {
         Column {
