@@ -49,7 +49,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2" // needed kotlin version 1.7.20
+        kotlinCompilerExtensionVersion = "1.4.5" // Compatible Kotlin Version 1.8.20
     }
 }
 
