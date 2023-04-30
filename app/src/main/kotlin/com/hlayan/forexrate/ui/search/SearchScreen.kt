@@ -7,43 +7,51 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.hlayan.forexrate.data.local.sharedPreferences
-import com.hlayan.forexrate.data.local.sharedRates
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.hlayan.forexrate.shared.extension.spacesTrimmed
 import com.hlayan.forexrate.ui.converter.Converter
 import com.hlayan.forexrate.ui.shared.currency.Currency
 import com.hlayan.forexrate.ui.shared.currency.CurrencyList
-import com.hlayan.forexrate.ui.shared.currency.currencies
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = hiltViewModel(),
     onNavigateUp: () -> Unit = {}
 ) {
     val selectedCurrency = rememberSaveable { mutableStateOf(Currency()) }
     val showConverter = rememberSaveable { mutableStateOf(false) }
 
-    val context = LocalContext.current
-    val fullCurrencies =
-        remember { context.sharedPreferences.sharedRates?.currencies ?: emptyList() }
+    val currencies = viewModel.currencies.collectAsState()
 
     if (showConverter.value) {
         Converter(
@@ -59,7 +67,7 @@ fun SearchScreen(
     Surface(modifier) {
         Column {
 
-            val currencies = remember { mutableStateOf(emptyList<Currency>()) }
+            val searchedCurrencies = remember { mutableStateOf(emptyList<Currency>()) }
 
             val focusManager = LocalFocusManager.current
             val inputted = remember { mutableStateOf(TextFieldValue()) }
@@ -76,9 +84,9 @@ fun SearchScreen(
                     }
 
                     LaunchedEffect(inputted.value) {
-                        currencies.value = if (inputted.value.text.isBlank()) emptyList()
+                        searchedCurrencies.value = if (inputted.value.text.isBlank()) emptyList()
                         else {
-                            fullCurrencies.filter { currency ->
+                            currencies.value.filter { currency ->
                                 inputted.value.text.spacesTrimmed.let {
                                     currency.name.spacesTrimmed.contains(it, true) ||
                                             currency.fullName.spacesTrimmed.contains(it, true)
@@ -133,7 +141,7 @@ fun SearchScreen(
                             onClick = {
                                 focusManager.moveFocus(FocusDirection.Previous)
                                 inputted.value = TextFieldValue()
-                                currencies.value = emptyList()
+                                searchedCurrencies.value = emptyList()
                             }
                         ) {
                             Icon(Icons.Filled.Close, contentDescription = "Clean Input")
@@ -146,7 +154,7 @@ fun SearchScreen(
             )
             Divider()
 
-            CurrencyList(Modifier.fillMaxSize(), currencies.value) {
+            CurrencyList(Modifier.fillMaxSize(), searchedCurrencies.value) {
                 focusManager.clearFocus()
                 selectedCurrency.value = it
                 showConverter.value = true
