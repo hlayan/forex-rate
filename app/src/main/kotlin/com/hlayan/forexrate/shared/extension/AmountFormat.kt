@@ -10,7 +10,14 @@ object AmountFormat {
         val before = old.text
         val numberDecimal = before.filter { it.isDigit() || it == '.' }
 
-        val after = addCommasByThousand(numberDecimal)
+        val after = if (numberDecimal.contains('.')) {
+            val beforeDot = numberDecimal.substringBefore('.')
+            val afterDot = numberDecimal.substringAfter('.', "")
+            "${addCommasByThousand(beforeDot)}.$afterDot"
+        } else {
+            addCommasByThousand(numberDecimal)
+        }
+
         val cursor = getNewCursor(old.selection.max, before, after)
 
         return old.copy(after, TextRange(cursor))
