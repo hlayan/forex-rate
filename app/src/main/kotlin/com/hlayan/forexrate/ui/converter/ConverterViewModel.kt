@@ -29,6 +29,8 @@ class ConverterViewModel @Inject constructor() : ViewModel() {
 
     fun updateForexRate(value: TextFieldValue) {
 
+        if (value.text.count { it == '.' } > 1) return
+
         val new = if (_forexRate.value.text == value.text) value else AmountFormat.format(value)
 
         _forexRate.value = new
@@ -43,6 +45,8 @@ class ConverterViewModel @Inject constructor() : ViewModel() {
     }
 
     fun updateMmkRate(value: TextFieldValue) {
+
+        if (value.text.count { it == '.' } > 1) return
 
         val new = if (_mmkRate.value.text == value.text) value else AmountFormat.format(value)
 
