@@ -2,13 +2,50 @@ package com.hlayan.forexrate.shared.extension
 
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import timber.log.Timber
 import kotlin.math.min
 
 object AmountFormat {
 
-    fun format(old: TextFieldValue): TextFieldValue {
+    fun format(former: TextFieldValue, current: TextFieldValue): TextFieldValue {
 
-        val before = old.text
+        if (former.text == current.text) return current
+
+        return try {
+            format(validateDecimal(former, current))
+        } catch (e: Exception) {
+            Timber.e(e)
+            former
+        }
+
+    }
+
+    private fun validateDecimal(former: TextFieldValue, current: TextFieldValue): TextFieldValue {
+
+        if (current.text.count { it == '.' } < 2) return current
+
+        val transformed = if ('.' in former.text && former.text.indexOf('.') !in former.selection) {
+
+            val newInputRange = former.selection.min until current.selection.max
+            val newInput = current.text.substring(newInputRange).replace(".", "")
+
+            current.text.replaceRange(newInputRange, newInput)
+
+        } else {
+            val beforeDot = current.text.substringBefore('.')
+            val afterDot = current.text.substringAfter('.')
+
+            "$beforeDot.${afterDot.replace(".", "")}"
+        }
+
+        val newCursor = current.selection.max - (current.text.length - transformed.length)
+
+        return current.copy(transformed, TextRange(newCursor))
+    }
+
+    private fun format(current: TextFieldValue): TextFieldValue {
+
+        val before = current.text
         val numberDecimal = before.filter { it in DECIMAL_NUMBER }
 
         val after = if (!numberDecimal.contains('.')) addCommasByThousand(numberDecimal)
@@ -18,9 +55,11 @@ object AmountFormat {
             "${addCommasByThousand(beforeDot)}.$afterDot"
         }
 
-        val cursor = getNewCursor(old.selection.max, before, after)
+        if (before == after) return current
 
-        return old.copy(after, TextRange(cursor))
+        val cursor = getNewCursor(current.selection.max, before, after)
+
+        return current.copy(after, TextRange(cursor))
     }
 
     private fun getNewCursor(oldCursor: Int, before: String, after: String): Int {

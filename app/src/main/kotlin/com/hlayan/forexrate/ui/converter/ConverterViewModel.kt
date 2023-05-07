@@ -29,13 +29,11 @@ class ConverterViewModel @Inject constructor() : ViewModel() {
 
     fun updateForexRate(value: TextFieldValue) {
 
-        if (value.text.count { it == '.' } > 1) return
+        val formatted = AmountFormat.format(_forexRate.value, value)
 
-        val new = if (_forexRate.value.text == value.text) value else AmountFormat.format(value)
+        _forexRate.value = formatted
 
-        _forexRate.value = new
-
-        val input = new.text.commasRemoved.toDoubleOrNull()
+        val input = formatted.text.commasRemoved.toDoubleOrNull()
 
         _mmkRate.value = if (input == null) TextFieldValue()
         else {
@@ -46,13 +44,11 @@ class ConverterViewModel @Inject constructor() : ViewModel() {
 
     fun updateMmkRate(value: TextFieldValue) {
 
-        if (value.text.count { it == '.' } > 1) return
+        val formatted = AmountFormat.format(_mmkRate.value, value)
 
-        val new = if (_mmkRate.value.text == value.text) value else AmountFormat.format(value)
+        _mmkRate.value = formatted
 
-        _mmkRate.value = new
-
-        val input = new.text.commasRemoved.toDoubleOrNull()
+        val input = formatted.text.commasRemoved.toDoubleOrNull()
 
         _forexRate.value = if (input == null) TextFieldValue()
         else {
