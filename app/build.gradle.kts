@@ -16,8 +16,8 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = sdkVersion
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
         applicationId = "com.hlayan.forexrate"
         vectorDrawables.useSupportLibrary = true
     }
@@ -61,7 +61,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material:material-icons-extended")
 
-    implementation("androidx.core:core-ktx:1.10.0")
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.activity:activity-compose:1.7.1")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -70,7 +70,7 @@ dependencies {
 //    implementation("androidx.navigation:navigation-compose:2.5.2")
 //    implementation("com.google.accompanist:accompanist-pager:0.19.0")
 
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.9.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
 
@@ -80,9 +80,9 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    implementation("com.google.dagger:hilt-android:2.44.2")
+    implementation("com.google.dagger:hilt-android:2.45")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
+    kapt("com.google.dagger:hilt-android-compiler:2.45")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 
