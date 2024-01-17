@@ -8,14 +8,12 @@ plugins {
 
 android {
 
-    val sdkVersion = 33
-
-    compileSdk = sdkVersion
+    compileSdk = 34
     namespace = "com.hlayan.forexrate"
 
     defaultConfig {
         minSdk = 21
-        targetSdk = sdkVersion
+        targetSdk = 34
         versionCode = 2
         versionName = "1.1.0"
         applicationId = "com.hlayan.forexrate"
@@ -40,8 +38,8 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -49,7 +47,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.5" // Compatible Kotlin Version 1.8.20
+        kotlinCompilerExtensionVersion = "1.5.7" // Support for Kotlin 1.9.21
     }
 }
 
@@ -61,16 +59,16 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material:material-icons-extended")
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.activity:activity-compose:1.7.1")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
 //    implementation("androidx.compose.material3:material3:1.0.0-alpha14")
 //    implementation("androidx.navigation:navigation-compose:2.5.2")
 //    implementation("com.google.accompanist:accompanist-pager:0.19.0")
 
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
 
@@ -80,13 +78,13 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    implementation("com.google.dagger:hilt-android:2.45")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
 
 // Allow references to generated code
