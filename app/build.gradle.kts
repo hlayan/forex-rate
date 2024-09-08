@@ -1,9 +1,10 @@
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt.android)
     id("kotlin-parcelize")
-    kotlin("android")
     kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -45,46 +46,38 @@ android {
     buildFeatures {
         compose = true
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.7" // Support for Kotlin 1.9.21
-    }
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2023.01.00"))
+    implementation(platform(libs.androidx.compose.bom))
 
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material.icons.extended)
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
-//    implementation("androidx.compose.material3:material3:1.0.0-alpha14")
-//    implementation("androidx.navigation:navigation-compose:2.5.2")
-//    implementation("com.google.accompanist:accompanist-pager:0.19.0")
+    implementation(libs.google.material)
+    implementation(libs.google.gson)
+    implementation(libs.accompanist.systemuicontroller)
 
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
+    implementation(libs.skydoves.sandwich)
+    implementation(libs.jakewharton.timber)
 
-    implementation("com.github.skydoves:sandwich:1.3.2")
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.squareup.retrofit2)
+    implementation(libs.squareup.retrofit2.converter.gson)
 
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 
 // Allow references to generated code
