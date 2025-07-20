@@ -2,7 +2,7 @@ package com.hlayan.forexrate.data.remote
 
 import com.hlayan.forexrate.ui.shared.currency.LatestRates
 import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
+import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

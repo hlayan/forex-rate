@@ -9,12 +9,12 @@ plugins {
 
 android {
 
-    compileSdk = 34
+    compileSdk = 35
     namespace = "com.hlayan.forexrate"
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 2
         versionName = "1.1.0"
         applicationId = "com.hlayan.forexrate"
@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.accompanist.systemuicontroller)
 
     implementation(libs.skydoves.sandwich)
+    implementation(libs.skydoves.sandwich.retrofit)
     implementation(libs.jakewharton.timber)
 
     implementation(libs.squareup.retrofit2)
