@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.ContentAlpha
@@ -64,7 +65,11 @@ fun SearchScreen(
         }
     }
 
-    Surface(modifier) {
+    Surface(
+        modifier
+            .fillMaxSize()
+            .systemBarsPadding()
+    ) {
         Column {
 
             val searchedCurrencies = remember { mutableStateOf(emptyList<Currency>()) }

@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
     private val currencyRepository: CurrencyRepository
 ) : ViewModel() {
 
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences = context.sharedPreferences
 
     private val _isLoading = mutableStateOf(false)
     val isLoading get() = _isLoading.value
@@ -39,7 +39,6 @@ class HomeViewModel @Inject constructor(
     val currencies get() = _currencies.value
 
     init {
-        sharedPreferences = context.sharedPreferences
         _selectedOrder.value = sharedPreferences.sortOrder
         getLocalCurrencies()
     }
